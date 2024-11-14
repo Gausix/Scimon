@@ -1,8 +1,9 @@
 site_name: Scimon
-repo_url: https://github.com/Scibun/Scimon
+repo_url: https://github.com/kremilly/Scimon
 theme:
   name: material
   features:
+    - navigation.tabs
     - navigation.instant
     - navigation.sections
     - navigation.footer
