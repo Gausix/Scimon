@@ -6,7 +6,7 @@ edition = "2021"
 authors = [ "kremilly" ]
 categories = ["command-line-utilities"]
 keywords = ["pdf batch", "batch downloads", "markdown to pdf", "pdf downloader", "markdown converter"]
-description = "Scimon is a tool designed for batch downloading PDF files using its dedicated language, Monset (.mon). Monset has an extremely simple and quick-to-write syntax, making it practical and intuitive to use."
+description = "Scimon is a tool designed for batch downloading PDF files using its own dedicated language, Monset (.mon). Monset features a very simple and quick-to-write syntax, making it easy to use."
 repository = "https://github.com/Kremilly/Scimon"
 documentation = "https://scimon.kremilly.com"
 
