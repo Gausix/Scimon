@@ -1,10 +1,14 @@
 [package]
-name = "scimon"
+name = "Scimon"
 version = "0.1.0"
+license = "MIT"
 edition = "2021"
-authors = [ "scibun" ]
-homepage = "https://scibun.com"
-documentation = "https://docs.scibun.com"
+authors = [ "kremilly" ]
+categories = ["command-line-utilities"]
+keywords = ["pdf batch", "batch downloads", "markdown to pdf", "pdf downloader", "markdown converter"]
+description = "Scimon is a tool designed for batch downloading PDF files using its dedicated language, Monset (.mon). Monset has an extremely simple and quick-to-write syntax, making it practical and intuitive to use."
+repository = "https://github.com/Kremilly/Scimon"
+documentation = "https://scimon.kremilly.com"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
