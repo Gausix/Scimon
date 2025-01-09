@@ -59,13 +59,13 @@ impl Scimon {
         
         if !run.is_empty() {
             UI::header();
+            let monset = Monset::new(run);
 
             if !Monlib::check_is_user(run) {
-                let _ = Monset::prints(run).await;
+                let _ = monset.prints().await;
+                let _ = monset.downloads(&flags).await;
+                let _ = monset.run_code().await;
                 
-                let _ = Monset::downloads(run, &flags).await;
-
-                let _ = Monset::run_code(run).await;
                 let _ = ReadMeBlock::render_block_and_save_file(run, &flags);
             } else {
                 let _ = Monlib::get(run, &flags).await;

@@ -23,15 +23,23 @@ use crate::{
     },
 };
 
-pub struct Monset;
+pub struct Monset{
+    run: String,
+}
 
 impl Monset {
 
-    async fn read_file(run: &str) -> Result<Cursor<Vec<u8>>, Box<dyn Error>> {
+    pub fn new(run: &str) -> Self {
+            Self {
+                run: run.to_string(),
+            }
+        }
+
+    async fn read_file(&self) -> Result<Cursor<Vec<u8>>, Box<dyn Error>> {
         let mut buffer = Vec::new();
 
-        if is_url(run) {
-            let response = reqwest::get(run).await?;
+        if is_url(&self.run) {
+            let response = reqwest::get(&self.run).await?;
 
             if !response.status().is_success() {
                 ErrorsAlerts::generic(
@@ -42,34 +50,34 @@ impl Monset {
             let bytes = response.bytes().await?;
             buffer.extend_from_slice(&bytes);
         } else {
-            let _ = Validate::file(run).map_err(|e| {
+            let _ = Validate::file(&self.run).map_err(|e| {
                 ErrorsAlerts::generic(&e.to_string());
             });
 
-            let mut file = File::open(run)?;
+            let mut file = File::open(&self.run)?;
             file.read_to_end(&mut buffer)?;
         }
 
         Ok(Cursor::new(buffer))
     }
 
-    pub async fn prints(run: &str) -> Result<(), Box<dyn Error>> {
-        let reader = Self::read_file(run).await?;
+    pub async fn prints(&self) -> Result<(), Box<dyn Error>> {
+        let mut reader = self.read_file().await?;
+        let _ = Tasks::prints(&mut reader).await?;
+
+        Ok(())
+    }
+
+    pub async fn downloads(&self, flags: &Flags) -> Result<(), Box<dyn Error>> {
+        let mut reader = self.read_file().await?;
+        let _ = DownloadsBlock::read_lines(&mut reader, &flags).await?;
         let _ = Tasks::prints(reader).await?;
 
         Ok(())
     }
 
-    pub async fn downloads(run: &str, flags: &Flags) -> Result<(), Box<dyn Error>> {
-        let mut reader = Self::read_file(run).await?;
-        let _ = DownloadsBlock::read_lines(&mut reader, flags).await?;
-        let _ = Tasks::prints(reader).await?;
-
-        Ok(())
-    }
-
-    pub async fn run_code(run: &str) -> Result<(), Box<dyn Error>> {
-        let mut reader = Self::read_file(run).await?;
+    pub async fn run_code(&self) -> Result<(), Box<dyn Error>> {
+        let mut reader = self.read_file().await?;
         RunnerBlock::read_lines(&mut reader).await?;
 
         Ok(())
