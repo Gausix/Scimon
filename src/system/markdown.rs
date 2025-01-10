@@ -49,7 +49,7 @@ impl Markdown {
         }
     }
 
-    pub fn get_filename_rendered(file: &str) -> String {
+    pub fn get_filename_rendered(&self, file: &str) -> String {
         let filename = if Settings.get("render_markdown.overwrite", "BOOLEAN") == true {
             ".html".to_string()
         } else {
@@ -59,7 +59,7 @@ impl Markdown {
         RenderIO.get_file_path(file).replace(".html", &filename)
     }
 
-    pub fn append_extras_and_render(markdown: &str) -> String {
+    pub fn append_extras_and_render(&self, markdown: &str) -> String {
         let parser = Parser::new_ext(&markdown, Options::all());
         let mut html_output = String::new();
         html::push_html(&mut html_output, parser);
@@ -67,7 +67,7 @@ impl Markdown {
         format!("<div class='markdown-content'>{}</div>", html_output)
     }
 
-    pub async fn render(url: &str) -> Result<String, Box<dyn Error>> {
+    pub async fn render(&self, url: &str) -> Result<String, Box<dyn Error>> {
         let markdown_content = Remote::content(url).await?;
     
         let options = Options::empty();
@@ -79,9 +79,9 @@ impl Markdown {
         Ok(html_output)
     }
 
-    pub async fn create(contents: &str, url: &str, path: &str) -> Result<(), Box<dyn Error>> {
+    pub async fn create(&self, contents: &str, url: &str, path: &str) -> Result<(), Box<dyn Error>> {
         if Remote::check_content_type(&url, "text/markdown").await? || url.contains(".md") {
-            let html_content = Self::render(url).await?;
+            let html_content = self.render(url).await?;
             let content = RenderInject::html_content(contents, html_content).await?;
             
             let original_name = FileNameRemote::new(url).get();

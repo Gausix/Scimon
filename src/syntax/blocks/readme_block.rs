@@ -58,7 +58,7 @@ impl ReadMeBlock {
                 .collect::<Vec<&str>>()
                 .join("\n");
 
-            let output = Markdown::append_extras_and_render(&unindented_markdown_block);
+            let output = Markdown.append_extras_and_render(&unindented_markdown_block);
             Some(output)
         } else {
             None
@@ -68,7 +68,7 @@ impl ReadMeBlock {
     pub async fn render_block_and_save_file(run: &str, flags: &Flags) {
         if !flags.no_readme {
             if let Some(markdown_html) = Self::render(run) {
-                let path = Markdown::get_filename_rendered(run);
+                let path = Markdown.get_filename_rendered(run);
                 
                 if let Ok(contents) = Render::render_content(&run, markdown_html).await {
                     FileUtils.write_file(&path, contents);
@@ -85,12 +85,12 @@ impl ReadMeBlock {
             if let Some(url) = Vars::get_readme(contents).await {
                 let get_last_part = &UrlMisc::get_last_part(&url);
     
-                let path = Markdown::get_filename_rendered(
+                let path = Markdown.get_filename_rendered(
                     &get_last_part.replace(".md", ".html")
                 );
     
                 let markdown_content = Remote::content(&url).await?;
-                let contents_extras = Markdown::append_extras_and_render(&markdown_content);
+                let contents_extras = Markdown.append_extras_and_render(&markdown_content);
 
                 if let Ok(contents) = Render::render_content(&get_last_part, contents_extras).await {
                     FileUtils.write_file(&path, contents);

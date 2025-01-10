@@ -95,7 +95,7 @@ impl Tasks {
         }
 
         if let Some(contents) = contents {
-            Markdown::create(&contents, &line_url, &path).await?;
+            Markdown.create(&contents, &line_url, &path).await?;
         }
 
         Pdf::download_line(&line_url, url, path).await?;
