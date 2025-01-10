@@ -63,7 +63,7 @@ impl Monset {
 
     pub async fn prints(&self) -> Result<(), Box<dyn Error>> {
         let mut reader = self.read_file().await?;
-        let _ = Tasks::prints(&mut reader).await?;
+        let _ = Tasks.prints(&mut reader).await?;
 
         Ok(())
     }
@@ -71,7 +71,7 @@ impl Monset {
     pub async fn downloads(&self, flags: &Flags) -> Result<(), Box<dyn Error>> {
         let mut reader = self.read_file().await?;
         let _ = DownloadsBlock::read_lines(&mut reader, &flags).await?;
-        let _ = Tasks::prints(reader).await?;
+        let _ = Tasks.prints(reader).await?;
 
         Ok(())
     }

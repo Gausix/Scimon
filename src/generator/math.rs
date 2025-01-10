@@ -23,7 +23,7 @@ impl Math {
 
     pub fn new(contents: &str) -> Self {
         Self {
-            contents: Vars::get_all_math(contents),
+            contents: Vars.get_all_math(contents),
         }
     }
     

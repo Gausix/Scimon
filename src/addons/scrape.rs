@@ -66,7 +66,7 @@ impl Scrape {
                                         let path = Folders::SCRAPE_FOLDER.to_str().unwrap().to_string();
                                         let url = &item.url;
 
-                                        Tasks::download(
+                                        Tasks.download(
                                             None, url, &path, flags,
                                         ).await?;
                                     }

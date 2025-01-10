@@ -60,8 +60,8 @@ impl Covers {
     }
 
     pub async fn get(&self) -> Result<(), Box<dyn Error>> {
-        if let Some(covers_path) = Vars::get_covers(&self.contents) {
-            let pdf_path = &Vars::get_path(&self.contents);
+        if let Some(covers_path) = Vars.get_covers(&self.contents) {
+            let pdf_path = &Vars.get_path(&self.contents);
             
             FileUtils.create_path(&covers_path);
             UI::section_header("Extracting covers", "normal");

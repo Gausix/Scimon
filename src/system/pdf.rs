@@ -62,7 +62,7 @@ impl Pdf {
 
     pub async fn create_pdf(&self, content: &str, path: PathBuf, url: &str) -> Result<(), Box<dyn Error>> {
         let len = Remote::get_file_size(url).await?;
-        let pdf_contents = Render::connect_to_browser(content).await?;
+        let pdf_contents = Render.connect_to_browser(content).await?;
     
         let pb = ProgressBar::new(len);
 

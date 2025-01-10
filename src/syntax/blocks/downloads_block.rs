@@ -59,7 +59,7 @@ impl DownloadsBlock {
 
             if !MacroHandler::handle_check_macro_line(&line, "ignore") {
                 if !final_url.is_empty() && is_url(&final_url) && final_url.starts_with("http") {
-                    Tasks::download(
+                    Tasks.download(
                         Some(contents),
                         &final_url,
                         &path,
@@ -76,7 +76,7 @@ impl DownloadsBlock {
 
     pub async fn read_lines<R>(reader: R, flags: &Flags) -> Result<(), Box<dyn Error>> where R: BufRead {
         let contents = reader.lines().collect::<Result<Vec<_>, _>>()?.join("\n");
-        let path = Vars::get_path(&contents);
+        let path = Vars.get_path(&contents);
 
         let start_index = match (contents.find("downloads {"), contents.find("downloads{")) {
             (Some(idx1), Some(idx2)) => Some(idx1.min(idx2)),
@@ -99,10 +99,10 @@ impl DownloadsBlock {
 
             Compress::new(&contents).get()?;
             Covers::new(&contents).get().await?;
-            Tasks::qr_codes(&contents).await?;
+            Tasks.qr_codes(&contents).await?;
             Math::new(&contents).render()?;
             
-            Vars::get_open(&contents, flags.no_open_link).await;
+            Vars.get_open(&contents, flags.no_open_link).await;
             ReadMeBlock::render_var_and_save_file(&contents, flags).await?;
 
             Checksum::new(Some(contents)).files()?;

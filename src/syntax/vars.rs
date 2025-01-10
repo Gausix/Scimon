@@ -17,7 +17,7 @@ pub struct Vars;
 
 impl Vars {
 
-    pub fn get_path(contents: &str) -> String {
+    pub fn get_path(&self, contents: &str) -> String {
         let path_pattern = Regex::new(BlocksRegExp::GET_PATH_VAR).unwrap();
 
         let path = path_pattern.captures(&contents)
@@ -31,7 +31,7 @@ impl Vars {
         path.to_string()
     }
 
-    pub async fn get_open(contents: &str, no_open: bool) -> Option<String> {
+    pub async fn get_open(&self, contents: &str, no_open: bool) -> Option<String> {
         if !no_open {
             let open_pattern = Regex::new(BlocksRegExp::GET_OPEN_VAR).unwrap();
         
@@ -55,7 +55,7 @@ impl Vars {
         }
     }
 
-    pub async fn get_readme(contents: &str) -> Option<String> {
+    pub async fn get_readme(&self, contents: &str) -> Option<String> {
         let readme_pattern = Regex::new(BlocksRegExp::GET_README_VAR).unwrap();
     
         if let Some(caps) = readme_pattern.captures(&contents) {
@@ -65,7 +65,7 @@ impl Vars {
         }
     }
 
-    pub fn get_compress(contents: &str) -> Option<String> {
+    pub fn get_compress(&self, contents: &str) -> Option<String> {
         let readme_pattern = Regex::new(BlocksRegExp::GET_COMPRESS_VAR).unwrap();
     
         if let Some(caps) = readme_pattern.captures(&contents) {
@@ -75,7 +75,7 @@ impl Vars {
         }
     }
 
-    pub fn get_covers(contents: &str) -> Option<String> {
+    pub fn get_covers(&self, contents: &str) -> Option<String> {
         let readme_pattern = Regex::new(BlocksRegExp::GET_COVERS_VAR).unwrap();
     
         if let Some(caps) = readme_pattern.captures(&contents) {
@@ -85,7 +85,7 @@ impl Vars {
         }
     }
 
-    pub fn get_print(contents: &str) -> Option<String> {
+    pub fn get_print(&self, contents: &str) -> Option<String> {
         let print_pattern = Regex::new(BlocksRegExp::GET_PRINT_VAR).unwrap();
     
         if let Some(caps) = print_pattern.captures(&contents) {
@@ -100,7 +100,7 @@ impl Vars {
         }
     }
 
-    pub fn get_all_math(contents: &str) -> Vec<(String, String)> {
+    pub fn get_all_math(&self, contents: &str) -> Vec<(String, String)> {
         let math_pattern = Regex::new(BlocksRegExp::GET_MATH_VAR).unwrap();
         let mut results = Vec::new();
 
@@ -115,7 +115,7 @@ impl Vars {
         results
     }
     
-    pub fn get_style(contents: &str) -> Option<String> {
+    pub fn get_style(&self, contents: &str) -> Option<String> {
         let style_pattern = Regex::new(BlocksRegExp::GET_STYLE_VAR).unwrap();
     
         if let Some(caps) = style_pattern.captures(&contents) {
@@ -125,7 +125,7 @@ impl Vars {
         }
     }
     
-    pub fn get_qrcode(contents: &str) -> Option<String> {
+    pub fn get_qrcode(&self, contents: &str) -> Option<String> {
         let style_pattern = Regex::new(BlocksRegExp::GET_QRCODE_VAR).unwrap();
     
         if let Some(caps) = style_pattern.captures(&contents) {

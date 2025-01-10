@@ -18,7 +18,7 @@ pub struct RenderInject;
 
 impl RenderInject {
 
-    pub fn content(file: &str, contents: String, markdown_html: String) -> String {
+    pub fn content(&self, file: &str, contents: String, markdown_html: String) -> String {
         let title = format!(
             "{}: {}: README", StrUtils::capitalize(&Global::APP_NAME), &file.replace(
                 ".md", ""
@@ -39,8 +39,8 @@ impl RenderInject {
         )
     }
 
-    pub async fn html_content(contents: &str, html_content: String) -> Result<String, Box<dyn Error>> {
-        let css_cdn = if let Some(url) = Vars::get_style(contents) {
+    pub async fn html_content(&self, contents: &str, html_content: String) -> Result<String, Box<dyn Error>> {
+        let css_cdn = if let Some(url) = Vars.get_style(contents) {
             url
         } else {
             Addons::DEFAULT_CSS_STYLE.to_string()

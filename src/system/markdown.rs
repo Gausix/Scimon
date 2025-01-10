@@ -82,7 +82,7 @@ impl Markdown {
     pub async fn create(&self, contents: &str, url: &str, path: &str) -> Result<(), Box<dyn Error>> {
         if Remote::check_content_type(&url, "text/markdown").await? || url.contains(".md") {
             let html_content = self.render(url).await?;
-            let content = RenderInject::html_content(contents, html_content).await?;
+            let content = RenderInject.html_content(contents, html_content).await?;
             
             let original_name = FileNameRemote::new(url).get();
             let new_filename = FileUtils.replace_extension(&original_name, "pdf");

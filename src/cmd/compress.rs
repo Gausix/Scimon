@@ -56,10 +56,10 @@ impl Compress {
     }
     
     pub fn get(&self) -> IoResult<()> {
-        if let Some(zip_file) = Vars::get_compress(&self.contents) {
+        if let Some(zip_file) = Vars.get_compress(&self.contents) {
             UI::section_header("Compressing files", "normal");
 
-            let folder_path = Vars::get_path(&self.contents);
+            let folder_path = Vars.get_path(&self.contents);
             let compress_level = self.compress_level();
             
             let output_path = Path::new(&zip_file);

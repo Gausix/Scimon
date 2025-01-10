@@ -37,18 +37,18 @@ pub struct Tasks;
 
 impl Tasks {
 
-    pub async fn prints<R>(reader: R) -> Result<(), Box<dyn Error>> where R: BufRead, {
+    pub async fn prints<R>(&self, reader: R) -> Result<(), Box<dyn Error>> where R: BufRead, {
         let contents = reader.lines().collect::<Result<Vec<_>, _>>()?.join("\n");
 
         for line in contents.lines() {
-            Vars::get_print(&line);
+            Vars.get_print(&line);
         }
 
         Ok(())
     }
 
-    pub async fn qr_codes(contents: &str) -> Result<(), Box<dyn Error>> {
-        if let Some(qrcode_path) = Vars::get_qrcode(contents) {
+    pub async fn qr_codes(&self, contents: &str) -> Result<(), Box<dyn Error>> {
+        if let Some(qrcode_path) = Vars.get_qrcode(contents) {
             UI::section_header("QR Codes", "normal");
 
             for line in contents.lines() {
@@ -81,7 +81,7 @@ impl Tasks {
         Ok(())
     }
 
-    pub async fn download(contents: Option<&str>, url: &str, path: &str, flags: &Flags) -> Result<(), Box<dyn Error>> {
+    pub async fn download(&self, contents: Option<&str>, url: &str, path: &str, flags: &Flags) -> Result<(), Box<dyn Error>> {
         let mut line_url = Cow::Borrowed(
             url.trim()
         );

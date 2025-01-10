@@ -106,7 +106,7 @@ impl Monlib {
                     let url = line_result?;
                     let _ = fs::create_dir(&path);
 
-                    Tasks::download(
+                    Tasks.download(
                         None, &url, &path, flags,
                     ).await?;
                 }

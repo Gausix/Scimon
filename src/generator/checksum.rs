@@ -39,7 +39,7 @@ impl Checksum {
         }
     }
 
-    pub fn hash(file_path: &str) -> Result<String, Box<dyn Error>> {
+    pub fn hash(&self, file_path: &str) -> Result<String, Box<dyn Error>> {
         let mut file = File::open(file_path)?;
         let mut hasher = Sha256::new();
 
@@ -59,7 +59,7 @@ impl Checksum {
         UI::section_header("Hashes files", "normal");
 
         let contents = self.contents.as_ref().map(|s| s.as_str()).unwrap_or("");
-        let folder_path = Vars::get_path(contents);
+        let folder_path = Vars.get_path(contents);
 
         let checksum_filename = format!(
             "{}{}", folder_path, FileUtils.replace_extension(
@@ -77,7 +77,7 @@ impl Checksum {
             if path.extension().map_or(false, |ext| ext == "pdf") {
                 let file = name.to_str().unwrap();
                 let path = path.to_str().unwrap();
-                let hash = Checksum::hash(path).unwrap();
+                let hash = self.hash(path).unwrap();
 
                 writeln!(checksum_file, "{}  {}", hash, file)?;
                 ChecksumAlerts::hash(&file, &hash);
