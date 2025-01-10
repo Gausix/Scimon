@@ -15,7 +15,7 @@ pub struct Reporting;
 
 impl Reporting {
     
-    pub async fn check_download_errors(url: &str) -> Result<(), Box<dyn Error>> {
+    pub async fn check_download_errors(&self, url: &str) -> Result<(), Box<dyn Error>> {
         let final_url = &MacroHandler::remove_macros(url);
         let regex = Regex::new(CoreRegExp::VALIDATE_TAGS).unwrap();
 

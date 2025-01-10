@@ -27,7 +27,7 @@ pub struct Scripts;
 
 impl Scripts {
     
-    fn exec(line: &str, program: &str) -> Result<(), Box<dyn Error>> {
+    fn exec(&self, line: &str, program: &str) -> Result<(), Box<dyn Error>> {
         let language = Plataforms::get_bin_name(program);
 
         let line_cleanned = Regex::new(
@@ -52,7 +52,7 @@ impl Scripts {
         Ok(())
     }
 
-    pub async fn read(line_trimmed: &str) -> Result<(), Box<dyn Error>> {
+    pub async fn read(&self, line_trimmed: &str) -> Result<(), Box<dyn Error>> {
         if line_trimmed.len() >= 3 {
             let script = if line_trimmed.starts_with("http") {
                 let path = Folders::SCRIPTS_FOLDER.to_str().unwrap_or_default().to_string();
@@ -64,9 +64,9 @@ impl Scripts {
             };
 
             if script.ends_with(".py") {
-                Self::exec(&script, "python")?;
+                self.exec(&script, "python")?;
             } else if line_trimmed.ends_with(".js") {
-                Self::exec(&script, "node")?;
+                self.exec(&script, "node")?;
             } else {
                 ErrorsCommandsAlerts::unsupported(&script);
             }

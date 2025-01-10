@@ -9,7 +9,7 @@ pub struct ErrorsCommandsAlerts;
 impl ErrorsCommandsAlerts {
 
     pub fn executing(stderr: &str) {
-        let current_datetime = General::date_time();
+        let current_datetime = General.date_time();
 
         eprintln!(
             "{} Error in executing script: {}", 
@@ -19,7 +19,7 @@ impl ErrorsCommandsAlerts {
     }
 
     pub fn unsupported(script: &str) {
-        let current_datetime = General::date_time();
+        let current_datetime = General.date_time();
 
         eprintln!(
             "{} Unsupported script: {}", 

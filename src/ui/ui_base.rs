@@ -26,7 +26,7 @@ impl UI {
                 println!("");
                 println!("Version: {}", Global::APP_VERSION.yellow());
                 println!("Homepage: {} • {}", Global::APP_HOMEPAGE.blue(), Global::APP_AUTHOR.green());
-                println!("Started in: {}", General::date_time().magenta());
+                println!("Started in: {}", General.date_time().magenta());
             }
         }
     }

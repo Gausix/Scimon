@@ -6,7 +6,7 @@ pub struct General;
 
 impl General {
 
-    pub fn date_time() -> String {
+    pub fn date_time(&self) -> String {
         let local_time = Local::now();
     
         let date_formated = local_time.format("%Y-%m-%d").to_string();

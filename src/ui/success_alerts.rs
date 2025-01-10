@@ -12,12 +12,12 @@ pub struct SuccessAlerts;
 impl SuccessAlerts {
 
     pub fn env() {
-        let current_datetime = General::date_time();
+        let current_datetime = General.date_time();
         println!("{} Downloaded env file", current_datetime.green().bold());
     }
 
     pub fn write_env(var_name: &str) {
-        let current_datetime = General::date_time();
+        let current_datetime = General.date_time();
 
         println!("{} Added env '{}' variable", 
             current_datetime.green().bold(),
@@ -29,7 +29,7 @@ impl SuccessAlerts {
         let mut encrypted_emoji = "";
 
         let domain = Domain::new(url).get();
-        let current_datetime = General::date_time();
+        let current_datetime = General.date_time();
     
         if password {
             encrypted_emoji = "🔒";
@@ -46,7 +46,7 @@ impl SuccessAlerts {
   
     pub fn download_and_generated_pdf(file: &str, url: &str) {
         let domain = Domain::new(url).get();
-        let current_datetime = General::date_time();
+        let current_datetime = General.date_time();
     
         println!(
             "{} Downloaded and generated pdf {} ({})", 
@@ -57,7 +57,7 @@ impl SuccessAlerts {
     }
 
     pub fn qrcode(file: &str) {
-        let current_datetime = General::date_time();
+        let current_datetime = General.date_time();
     
         println!(
             "{} QR Code saved in {}", 
@@ -67,7 +67,7 @@ impl SuccessAlerts {
     }
 
     pub fn math(file: &str) {
-        let current_datetime = General::date_time();
+        let current_datetime = General.date_time();
     
         println!(
             "{} Math equation rendered and saved in {}", 
@@ -77,7 +77,7 @@ impl SuccessAlerts {
     }
   
     pub fn cover_generated(file: &str) {
-        let current_datetime = General::date_time();
+        let current_datetime = General.date_time();
     
         println!(
             "{} Cover saved in {}", 

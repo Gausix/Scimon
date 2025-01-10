@@ -17,7 +17,7 @@ impl ChecksumAlerts {
     }
 
     pub fn checksum_file(file: &str) {
-        let current_datetime = General::date_time();
+        let current_datetime = General.date_time();
 
         println!(
             "{} Checksum file created with successfully in {}", 

@@ -86,7 +86,7 @@ impl Tasks {
             url.trim()
         );
 
-        Reporting::check_download_errors(&line_url).await?;
+        Reporting.check_download_errors(&line_url).await?;
         if !is_url(&line_url) { return Ok(()) }
     
         match MacroHandler::handle_ignore_macro_flag(&line_url, flags.no_ignore) {
