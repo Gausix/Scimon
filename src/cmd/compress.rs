@@ -44,7 +44,7 @@ impl Compress {
     }
 
     fn compress_level() -> u8 {
-        let value = Settings::get("general.level_compress", "INT");
+        let value = Settings.get("general.level_compress", "INT");
         let level = value.as_i64().expect("Invalid level_compress value. Must be an integer.") as u8;
 
         if level > 9 {

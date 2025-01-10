@@ -50,7 +50,7 @@ impl Markdown {
     }
 
     pub fn get_filename_rendered(file: &str) -> String {
-        let filename = if Settings::get("render_markdown.overwrite", "BOOLEAN") == true {
+        let filename = if Settings.get("render_markdown.overwrite", "BOOLEAN") == true {
             ".html".to_string()
         } else {
             FileName::new(16, "html").gen()

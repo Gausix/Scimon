@@ -17,7 +17,7 @@ pub struct UI;
 impl UI {
 
     pub fn header() {
-        if Settings::get("ui.show_header", "BOOLEAN") == true {
+        if Settings.get("ui.show_header", "BOOLEAN") == true {
             let name = StrUtils::capitalize(Global::APP_NAME);
             let standard_font = FIGfont::standard().unwrap();
             

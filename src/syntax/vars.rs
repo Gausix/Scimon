@@ -38,7 +38,7 @@ impl Vars {
             if let Some(caps) = open_pattern.captures(&contents) {
                 let url = caps.get(1).map(|m| m.as_str().to_string())?;
 
-                let open_url = if Settings::get("general.urlfilter_open", "BOOLEAN") == true {
+                let open_url = if Settings.get("general.urlfilter_open", "BOOLEAN") == true {
                     format!("{}{}", Addons::SCIMON_URLFILTER_API_ENDPOINT, url)
                 } else {
                     url

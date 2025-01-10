@@ -22,7 +22,7 @@ pub struct Settings;
 
 impl Settings {
 
-    fn is_valid(prop: &str, value: &Value, data_type: &str) -> Result<Value, Box<dyn Error>> {
+    fn is_valid(&self, prop: &str, value: &Value, data_type: &str) -> Result<Value, Box<dyn Error>> {
         let value_type = match value {
             Value::String(_) => "STRING",
             Value::Number(_) => "INT",
@@ -49,7 +49,7 @@ impl Settings {
         Ok(value.clone())
     }
 
-    fn get_value(prop: &str, data_type: &str) -> Result<Value, Box<dyn Error>> {
+    fn get_value(&self, prop: &str, data_type: &str) -> Result<Value, Box<dyn Error>> {
         let mut file = File::open(&*Folders::SETTINGS_FILE)?;
         let mut contents = String::new();
         file.read_to_string(&mut contents)?;
@@ -63,11 +63,11 @@ impl Settings {
             value = &value[part];
         }
 
-        Self::is_valid(prop, value, data_type)
+        self.is_valid(prop, value, data_type)
     }
 
-    pub fn get(prop: &str, data_type: &str) -> Value {
-        match Self::get_value(prop, data_type) {
+    pub fn get(&self, prop: &str, data_type: &str) -> Value {
+        match self.get_value(prop, data_type) {
             Ok(value) => value,
 
             Err(e) => {
@@ -81,7 +81,7 @@ impl Settings {
         let app_folder = &*Folders::APP_FOLDER;
         let env_path: PathBuf = app_folder.join("scibun.yml");
 
-        if let SerdeValue(editor) = &Settings::get(
+        if let SerdeValue(editor) = self.get(
             "general.default_text_editor", "STRING"
         ) {
             open::with(env_path, editor)?;

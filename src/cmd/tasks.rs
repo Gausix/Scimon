@@ -64,7 +64,7 @@ impl Tasks {
                     if !url.is_empty() && is_url(&url) && url.starts_with("http") {
                         FileUtils::create_path(&qrcode_path);
             
-                        let value = Settings::get("general.qrcode_size", "INT");
+                        let value = Settings.get("general.qrcode_size", "INT");
                         let qrcode_size = value.as_i64().expect("Invalid qrcode_size value. Must be an integer.") as usize;
             
                         let name = FileNameRemote::new(url).get();

@@ -34,7 +34,7 @@ impl Env {
         let app_folder = &*Folders::APP_FOLDER;
         let env_path: PathBuf = app_folder.join(".env");
 
-        if let SerdeValue(editor) = &Settings::get(
+        if let SerdeValue(editor) = &Settings.get(
             "general.default_text_editor", "STRING"
         ) {
             open::with(env_path, editor)?;
