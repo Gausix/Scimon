@@ -62,13 +62,13 @@ impl Tasks {
 
                 if !MacroHandler::handle_check_macro_line(&line, "ignore") {
                     if !url.is_empty() && is_url(&url) && url.starts_with("http") {
-                        FileUtils::create_path(&qrcode_path);
+                        FileUtils.create_path(&qrcode_path);
             
                         let value = Settings.get("general.qrcode_size", "INT");
                         let qrcode_size = value.as_i64().expect("Invalid qrcode_size value. Must be an integer.") as usize;
             
                         let name = FileNameRemote::new(url).get();
-                        let name_pdf = FileUtils::replace_extension(&name, "png");
+                        let name_pdf = FileUtils.replace_extension(&name, "png");
                         let file_path = format!("{}{}", qrcode_path, name_pdf);
                         
                         GenQrCode::new(&url, qrcode_size).png(&file_path).unwrap();

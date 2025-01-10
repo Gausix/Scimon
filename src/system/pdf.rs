@@ -85,7 +85,7 @@ impl Pdf {
         let pb = ProgressBar::new(total_size);
         pb.set_style(UI::pb_template());
     
-        let output_path = FileUtils::get_output_path(path, &filename);
+        let output_path = FileUtils.get_output_path(path, &filename);
         let mut dest = File::create(&output_path)?;
         let content = response.bytes().await?;
         let mut reader = Cursor::new(content);

@@ -40,7 +40,7 @@ impl Remote {
     }
 
     pub async fn get_filename(url: &str, pdf: bool) -> Result<String, Box<dyn Error>> {
-        let filename = FileUtils::detect_name(
+        let filename = FileUtils.detect_name(
             url, reqwest::get(url).await?.headers().get("content-disposition"), pdf
         ).await?;
 

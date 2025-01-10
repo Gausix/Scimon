@@ -85,8 +85,8 @@ impl Markdown {
             let content = RenderInject::html_content(contents, html_content).await?;
             
             let original_name = FileNameRemote::new(url).get();
-            let new_filename = FileUtils::replace_extension(&original_name, "pdf");
-            let output_path = FileUtils::get_output_path(&path, &new_filename);
+            let new_filename = FileUtils.replace_extension(&original_name, "pdf");
+            let output_path = FileUtils.get_output_path(&path, &new_filename);
 
             Pdf::create_pdf(&content, output_path, &url).await?;
             SuccessAlerts::download_and_generated_pdf(&new_filename, url);

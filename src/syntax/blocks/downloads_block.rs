@@ -87,7 +87,7 @@ impl DownloadsBlock {
         let end_index = contents.rfind("}");
 
         if let (Some(start_index), Some(end_index)) = (start_index, end_index) {
-            FileUtils::create_path(&path);
+            FileUtils.create_path(&path);
             let downloads_content = &contents[start_index + "downloads ".len()..end_index];
 
             if downloads_content.trim().starts_with("commands {") {

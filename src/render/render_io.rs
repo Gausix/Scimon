@@ -26,12 +26,12 @@ impl RenderIO {
     pub fn get_file_path(file: &str) -> String {
         let path = Self::get_path();
 
-        if !FileUtils::check_path_exists(&path) {
+        if !FileUtils.check_path_exists(&path) {
             let _ = fs::create_dir(&path);
         }
 
         format!(
-            "{}/{}", path.replace("\\", "/"), &FileUtils::replace_extension(file, "html")
+            "{}/{}", path.replace("\\", "/"), &FileUtils.replace_extension(file, "html")
         )
     }
 

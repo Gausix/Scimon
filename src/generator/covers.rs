@@ -63,7 +63,7 @@ impl Covers {
         if let Some(covers_path) = Vars::get_covers(&self.contents) {
             let pdf_path = &Vars::get_path(&self.contents);
             
-            FileUtils::create_path(&covers_path);
+            FileUtils.create_path(&covers_path);
             UI::section_header("Extracting covers", "normal");
 
             for entry in WalkDir::new(&pdf_path) {
@@ -72,7 +72,7 @@ impl Covers {
 
                 if path.extension().and_then(|s| s.to_str()) == Some("pdf") {
                     let file_name = path.strip_prefix(Path::new(&pdf_path)).unwrap();
-                    let new_name = FileUtils::replace_extension(file_name.to_str().unwrap_or_default(), "jpg");
+                    let new_name = FileUtils.replace_extension(file_name.to_str().unwrap_or_default(), "jpg");
                     let output_path = PathBuf::from(format!("{}{}", covers_path, new_name));
 
                     let output_file = format!("{}{}", covers_path, new_name);

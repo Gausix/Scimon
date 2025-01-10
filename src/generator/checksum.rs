@@ -62,7 +62,7 @@ impl Checksum {
         let folder_path = Vars::get_path(contents);
 
         let checksum_filename = format!(
-            "{}{}", folder_path, FileUtils::replace_extension(
+            "{}{}", folder_path, FileUtils.replace_extension(
                 &folder_path.replace("/", ""), "sha256"
             )
         );
