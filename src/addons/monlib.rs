@@ -54,7 +54,7 @@ pub struct Monlib;
 
 impl Monlib {
     
-    pub fn check_is_user(input: &str) -> bool {
+    pub fn check_is_user(&self, input: &str) -> bool {
         let parts: Vec<&str> = input.split('/').collect();
 
         if parts.len() == 2 && input.starts_with('@') && !parts[1].is_empty() {
@@ -64,7 +64,7 @@ impl Monlib {
         false
     }
 
-    pub async fn get(run: &str, flags: &Flags) -> Result<String, Box<dyn Error>> {
+    pub async fn get(&self, run: &str, flags: &Flags) -> Result<String, Box<dyn Error>> {
         let list = StrUtils::remove_initial_character(run, '@');
         let mut url = Addons::MONLIB_API_REQUEST.to_owned();
     

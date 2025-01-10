@@ -43,7 +43,7 @@ impl Compress {
         }
     }
 
-    fn compress_level() -> u8 {
+    fn compress_level(&self) -> u8 {
         let value = Settings.get("general.level_compress", "INT");
         let level = value.as_i64().expect("Invalid level_compress value. Must be an integer.") as u8;
 
@@ -60,7 +60,7 @@ impl Compress {
             UI::section_header("Compressing files", "normal");
 
             let folder_path = Vars::get_path(&self.contents);
-            let compress_level = Self::compress_level();
+            let compress_level = self.compress_level();
             
             let output_path = Path::new(&zip_file);
             let output_file = File::create(output_path)?;

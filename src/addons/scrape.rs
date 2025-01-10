@@ -38,7 +38,7 @@ pub struct Scrape;
 
 impl Scrape {
 
-    async fn fetch_items(url: &str) -> Result<Response, Box<dyn std::error::Error>> {
+    async fn fetch_items(&self, url: &str) -> Result<Response, Box<dyn std::error::Error>> {
         let url_with_param = Addons::SCIMON_SCRAPE_API_ENDPOINT.to_string() + url;
         let response = reqwest::get(&url_with_param).await?;
         let body = response.bytes().await?;
@@ -47,9 +47,9 @@ impl Scrape {
         Ok(data)
     }
 
-    pub async fn get(flags: &Flags, url: &str) -> Result<(), Box<dyn Error>> {
+    pub async fn get(&self, flags: &Flags, url: &str) -> Result<(), Box<dyn Error>> {
         if flags.scrape {
-            match Self::fetch_items(url).await {
+            match self.fetch_items(url).await {
                 Ok(response) => {
                     if let Some(success) = response.success {
                         if !success {

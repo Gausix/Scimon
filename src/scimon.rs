@@ -61,18 +61,18 @@ impl Scimon {
             UI::header();
             let monset = Monset::new(run);
 
-            if !Monlib::check_is_user(run) {
+            if !Monlib.check_is_user(run) {
                 let _ = monset.prints().await;
                 let _ = monset.downloads(&flags).await;
                 let _ = monset.run_code().await;
                 
                 let _ = ReadMeBlock::render_block_and_save_file(run, &flags);
             } else {
-                let _ = Monlib::get(run, &flags).await;
+                let _ = Monlib.get(run, &flags).await;
             }
         }
 
-        let _ = Scrape::get(&flags, url).await;
+        let _ = Scrape.get(&flags, url).await;
         let _ = Self::options(options).await;
     }
 
