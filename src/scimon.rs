@@ -30,7 +30,7 @@ impl Scimon {
     
     async fn options(options: &str) -> Result<(), Box<dyn Error>> {
         match options {
-            "open-env" => Env::open_env_file()?,
+            "open-env" => Env.open_env_file()?,
             "write-env" => WriteEnv::new().add_env_var()?,
             "open-settings" => Settings::open_settings_file()?,
             "download-env" => DownloadConfigsFiles::env_file(true, true).await?,

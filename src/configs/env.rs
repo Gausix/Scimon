@@ -18,7 +18,7 @@ pub struct Env;
 
 impl Env {
     
-    pub fn env_var(key: &str) -> String {
+    pub fn env_var(&self, key: &str) -> String {
         let load_env: Once = Once::new();
 
         load_env.call_once(|| {
@@ -30,7 +30,7 @@ impl Env {
         env::var(key).expect(&format!("{} not set", key))
     }
     
-    pub fn open_env_file() -> Result<(), IoError> {
+    pub fn open_env_file(&self) -> Result<(), IoError> {
         let app_folder = &*Folders::APP_FOLDER;
         let env_path: PathBuf = app_folder.join(".env");
 
