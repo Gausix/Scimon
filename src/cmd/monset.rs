@@ -30,10 +30,10 @@ pub struct Monset{
 impl Monset {
 
     pub fn new(run: &str) -> Self {
-            Self {
-                run: run.to_string(),
-            }
+        Self {
+            run: run.to_string(),
         }
+    }
 
     async fn read_file(&self) -> Result<Cursor<Vec<u8>>, Box<dyn Error>> {
         let mut buffer = Vec::new();
