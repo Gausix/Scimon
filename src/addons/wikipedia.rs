@@ -7,13 +7,21 @@ use crate::{
     },
 };
 
-pub struct Wikipedia;
+pub struct Wikipedia {
+    pub url: String,
+}
 
 impl Wikipedia {
 
-    pub fn wikipedia(url: &str) -> (String, String) {
-        let wiki_name = UrlMisc::get_last_part(url);
-        let wikipedia_region = format!("{}.", Domain::new(url).subdomain());
+    pub fn new(url: &str) -> Self {
+        Self {
+            url: url.to_string(),
+        }
+    }
+
+    pub fn wikipedia(&self) -> (String, String) {
+        let wiki_name = UrlMisc::get_last_part(&self.url);
+        let wikipedia_region = format!("{}.", Domain::new(&self.url).subdomain());
 
         let request_url = format!("{}{}", Uris::WIKIPEDIA_API_REQUEST_PDF.to_string().replace(
             "en.", &wikipedia_region
@@ -24,9 +32,9 @@ impl Wikipedia {
         (request_url, filename)
     }
 
-    pub fn wikisource(url: &str) -> (String, String) {
-        let wiki_name = UrlMisc::get_last_part(url);
-        let wikipedia_region = format!("{}.", Domain::new(url).subdomain());
+    pub fn wikisource(&self) -> (String, String) {
+        let wiki_name = UrlMisc::get_last_part(&self.url);
+        let wikipedia_region = format!("{}.", Domain::new(&self.url).subdomain());
 
         let request_url = format!("{}{}", Uris::WIKISOURCE_API_REQUEST_PDF.to_string().replace(
             "en.", &wikipedia_region

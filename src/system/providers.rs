@@ -59,11 +59,12 @@ impl Providers {
         let request_uri;
 
         let domain = Domain::new(&self.url);
+        let wikipedia = Wikipedia::new(&self.url);
 
         if domain.check(Uris::PROVIDERS_DOMAINS[0]) {
-            (request_uri, filename) = Wikipedia::wikipedia(&self.url);
+            (request_uri, filename) = wikipedia.wikipedia();
         } else if domain.check(Uris::PROVIDERS_DOMAINS[1]) {
-            (request_uri, filename) = Wikipedia::wikisource(&self.url);
+            (request_uri, filename) = wikipedia.wikisource();
         } else {
             (request_uri, filename) = self.generic().await?;
         }
