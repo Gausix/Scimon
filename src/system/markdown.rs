@@ -88,7 +88,7 @@ impl Markdown {
             let new_filename = FileUtils.replace_extension(&original_name, "pdf");
             let output_path = FileUtils.get_output_path(&path, &new_filename);
 
-            Pdf::create_pdf(&content, output_path, &url).await?;
+            Pdf.create_pdf(&content, output_path, &url).await?;
             SuccessAlerts::download_and_generated_pdf(&new_filename, url);
         }
 

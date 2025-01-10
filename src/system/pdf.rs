@@ -41,7 +41,7 @@ pub struct Pdf;
 
 impl Pdf {
 
-    pub async fn is_pdf_file(url: &str) -> Result<bool, Box<dyn Error>> {
+    pub async fn is_pdf_file(&self, url: &str) -> Result<bool, Box<dyn Error>> {
         let client = reqwest::Client::new();
         let response = client.get(url).send().await?;
 
@@ -60,7 +60,7 @@ impl Pdf {
         Ok(false)
     }
 
-    pub async fn create_pdf(content: &str, path: PathBuf, url: &str) -> Result<(), Box<dyn Error>> {
+    pub async fn create_pdf(&self, content: &str, path: PathBuf, url: &str) -> Result<(), Box<dyn Error>> {
         let len = Remote::get_file_size(url).await?;
         let pdf_contents = Render::connect_to_browser(content).await?;
     
@@ -75,7 +75,7 @@ impl Pdf {
         Ok(())
     }
 
-    pub async fn download(url: &str, path: &str) -> Result<String, Box<dyn Error>> {
+    pub async fn download(&self, url: &str, path: &str) -> Result<String, Box<dyn Error>> {
         UrlMisc::check_url_status(url).await?;
 
         let (request_uri, filename) = Providers::new(url).get_from_provider().await?;
@@ -103,7 +103,7 @@ impl Pdf {
         Ok(filename)
     }
 
-    pub fn is_pdf_encrypted(file_path: &str) -> bool {
+    pub fn is_pdf_encrypted(&self, file_path: &str) -> bool {
         if let Ok(file) = File::open(file_path) {
             let reader = BufReader::new(file);
 
@@ -115,14 +115,14 @@ impl Pdf {
         false
     }
 
-    pub async fn download_line(line_url: &str, url: &str, path: &str) -> Result<String, Box<dyn Error>> {
-        if Self::is_pdf_file(&line_url).await? || Providers::new(url).check_provider_domain() && !line_url.contains(".md") {
-            let result = Self::download(&line_url, path).await;
+    pub async fn download_line(&self, line_url: &str, url: &str, path: &str) -> Result<String, Box<dyn Error>> {
+        if self.is_pdf_file(&line_url).await? || Providers::new(url).check_provider_domain() && !line_url.contains(".md") {
+            let result = self.download(&line_url, path).await;
             
             match result {
                 Ok(file) => {
                     let file_path = &format!("{}{}", &path, &file);
-                    let password = Self::is_pdf_encrypted(&file_path);
+                    let password = self.is_pdf_encrypted(&file_path);
                     
                     SuccessAlerts::download(&file, url, password);
                     return Ok(file_path.to_string())

@@ -98,7 +98,7 @@ impl Tasks {
             Markdown.create(&contents, &line_url, &path).await?;
         }
 
-        Pdf::download_line(&line_url, url, path).await?;
+        Pdf.download_line(&line_url, url, path).await?;
         Ok(())
     }
 
