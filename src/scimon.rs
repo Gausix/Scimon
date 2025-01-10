@@ -32,9 +32,9 @@ impl Scimon {
         match options {
             "open-env" => Env.open_env_file()?,
             "write-env" => WriteEnv::new().add_env_var()?,
-            "open-settings" => Settings::open_settings_file()?,
-            "download-env" => DownloadConfigsFiles::env_file(true, true).await?,
-            "download-settings" => DownloadConfigsFiles::settings_file(true, true).await?,
+            "open-settings" => Settings.open_settings_file()?,
+            "download-env" => DownloadConfigsFiles.env_file(true, true).await?,
+            "download-settings" => DownloadConfigsFiles.settings_file(true, true).await?,
             _ => (),
         };
         
@@ -44,11 +44,11 @@ impl Scimon {
     pub async fn init() {
         let (print, force_mode) = (false, false);
 
-        if let Err(err) = DownloadConfigsFiles::env_file(print, force_mode).await {
+        if let Err(err) = DownloadConfigsFiles.env_file(print, force_mode).await {
             ErrorsAlerts::generic(&err.to_string());
         }
 
-        if let Err(err) = DownloadConfigsFiles::settings_file(print, force_mode).await {
+        if let Err(err) = DownloadConfigsFiles.settings_file(print, force_mode).await {
             ErrorsAlerts::generic(&err.to_string());
         }
 

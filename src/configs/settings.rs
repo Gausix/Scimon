@@ -77,7 +77,7 @@ impl Settings {
         }
     }
 
-    pub fn open_settings_file() -> Result<(), IoError> {
+    pub fn open_settings_file(&self) -> Result<(), IoError> {
         let app_folder = &*Folders::APP_FOLDER;
         let env_path: PathBuf = app_folder.join("scibun.yml");
 

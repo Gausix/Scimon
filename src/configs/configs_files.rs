@@ -29,7 +29,7 @@ pub struct DownloadConfigsFiles;
 
 impl DownloadConfigsFiles {
 
-    async fn force_mode(file_path: PathBuf, force_mode: bool, response: reqwest::Response) -> Result<(), Box<dyn Error>> {
+    async fn force_mode(&self, file_path: PathBuf, force_mode: bool, response: reqwest::Response) -> Result<(), Box<dyn Error>> {
         if !force_mode {
             if !Path::new(&file_path).is_file() {
                 let mut file = File::create(&file_path)?;
@@ -47,7 +47,7 @@ impl DownloadConfigsFiles {
         Ok(())
     }
 
-    pub async fn env_file(print: bool, force_mode: bool) -> Result<(), Box<dyn Error>> {
+    pub async fn env_file(&self, print: bool, force_mode: bool) -> Result<(), Box<dyn Error>> {
         let output_directory = &*Folders::APP_FOLDER;
         let uri = format!("{}{}", Addons::DOWNLOAD_FILES_URI, ".env.example");
     
@@ -58,7 +58,7 @@ impl DownloadConfigsFiles {
         let response = reqwest::get(uri).await?;
         if response.status().is_success() {
             let file_path = output_directory.join(".env");
-            Self::force_mode(file_path, force_mode, response).await?;
+            self.force_mode(file_path, force_mode, response).await?;
     
             if print == true {
                 SuccessAlerts::env();
@@ -71,7 +71,7 @@ impl DownloadConfigsFiles {
         Ok(())
     }
       
-    pub async fn settings_file(print: bool, force_mode: bool) -> Result<(), Box<dyn Error>> {
+    pub async fn settings_file(&self, print: bool, force_mode: bool) -> Result<(), Box<dyn Error>> {
         let output_directory = &*Folders::APP_FOLDER;
         let uri = format!("{}{}", Addons::DOWNLOAD_FILES_URI, "scimon.yml");
     
@@ -87,7 +87,7 @@ impl DownloadConfigsFiles {
                 )
             );
 
-            Self::force_mode(file_path, force_mode, response).await?;
+            self.force_mode(file_path, force_mode, response).await?;
     
             if print == true {
                 SuccessAlerts::env();
