@@ -6,7 +6,7 @@ use std::error::Error;
 
 use crate::{
     utils::remote::Remote,
-    syntax::macros::Macros,
+    syntax::macro_handler::MacroHandler,
     regexp::regex_core::CoreRegExp,
     ui::errors_alerts::ErrorsAlerts,
 };
@@ -16,7 +16,7 @@ pub struct Reporting;
 impl Reporting {
     
     pub async fn check_download_errors(url: &str) -> Result<(), Box<dyn Error>> {
-        let final_url = &Macros::remove_macros(url);
+        let final_url = &MacroHandler::remove_macros(url);
         let regex = Regex::new(CoreRegExp::VALIDATE_TAGS).unwrap();
 
         if regex.is_match(final_url) && !final_url.contains("*") && !final_url.is_empty() {

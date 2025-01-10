@@ -1,5 +1,5 @@
 pub mod vars;
-pub mod macros;
+pub mod macro_handler;
 
 // Blocks
 pub mod blocks;

@@ -23,7 +23,7 @@ use crate::{
     },
 
     syntax::{
-        macros::Macros, vars::Vars,
+        macro_handler::MacroHandler, vars::Vars,
         blocks::readme_block::ReadMeBlock, 
     }, 
 
@@ -57,7 +57,7 @@ impl DownloadsBlock {
         
             seen_urls.insert(final_url.to_string());
 
-            if !Macros::handle_check_macro_line(&line, "ignore") {
+            if !MacroHandler::handle_check_macro_line(&line, "ignore") {
                 if !final_url.is_empty() && is_url(&final_url) && final_url.starts_with("http") {
                     Tasks::download(
                         Some(contents),

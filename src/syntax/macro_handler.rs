@@ -6,9 +6,9 @@ use crate::{
     regexp::regex_macros::MacrosRegExp,
 };
 
-pub struct Macros;
+pub struct MacroHandler;
 
-impl Macros {
+impl MacroHandler {
 
     pub fn remove_macros(input: &str) -> String {
         let re = Regex::new(MacrosRegExp::GET_MACROS).unwrap();

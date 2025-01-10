@@ -23,7 +23,7 @@ use crate::{
     
     syntax::{
         vars::Vars,
-        macros::Macros,
+        macro_handler::MacroHandler,
     },
 
     system::{
@@ -60,7 +60,7 @@ impl Tasks {
                     break;
                 }
 
-                if !Macros::handle_check_macro_line(&line, "ignore") {
+                if !MacroHandler::handle_check_macro_line(&line, "ignore") {
                     if !url.is_empty() && is_url(&url) && url.starts_with("http") {
                         FileUtils::create_path(&qrcode_path);
             
@@ -89,7 +89,7 @@ impl Tasks {
         Reporting::check_download_errors(&line_url).await?;
         if !is_url(&line_url) { return Ok(()) }
     
-        match Macros::handle_ignore_macro_flag(&line_url, flags.no_ignore) {
+        match MacroHandler::handle_ignore_macro_flag(&line_url, flags.no_ignore) {
             Ok(new_line) => line_url = Cow::Owned(new_line),
             Err(_) => return Ok(()),
         }
