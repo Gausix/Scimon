@@ -10,7 +10,7 @@ pub struct RenderIO;
 
 impl RenderIO {
 
-    fn get_path() -> String {
+    fn get_path(&self) -> String {
         let value = Settings.get("render_markdown.output_path", "STRING");
 
         let value_str = match value {
@@ -23,8 +23,8 @@ impl RenderIO {
         ).to_string()
     }
 
-    pub fn get_file_path(file: &str) -> String {
-        let path = Self::get_path();
+    pub fn get_file_path(&self, file: &str) -> String {
+        let path = self.get_path();
 
         if !FileUtils.check_path_exists(&path) {
             let _ = fs::create_dir(&path);

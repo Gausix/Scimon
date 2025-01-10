@@ -56,7 +56,7 @@ impl Markdown {
             FileName::new(16, "html").gen()
         };
 
-        RenderIO::get_file_path(file).replace(".html", &filename)
+        RenderIO.get_file_path(file).replace(".html", &filename)
     }
 
     pub fn append_extras_and_render(markdown: &str) -> String {
