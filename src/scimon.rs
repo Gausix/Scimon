@@ -28,7 +28,7 @@ pub struct Scimon;
 
 impl Scimon {
     
-    async fn options(options: &str) -> Result<(), Box<dyn Error>> {
+    async fn options(&self, options: &str) -> Result<(), Box<dyn Error>> {
         match options {
             "open-env" => Env.open_env_file()?,
             "write-env" => WriteEnv::new().add_env_var()?,
@@ -41,7 +41,7 @@ impl Scimon {
         Ok(())
     }
 
-    pub async fn init() {
+    pub async fn init(&self) {
         let (print, force_mode) = (false, false);
 
         if let Err(err) = DownloadConfigsFiles.env_file(print, force_mode).await {
@@ -73,7 +73,7 @@ impl Scimon {
         }
 
         let _ = Scrape.get(&flags, url).await;
-        let _ = Self::options(options).await;
+        let _ = self.options(options).await;
     }
 
 }

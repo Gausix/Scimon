@@ -16,5 +16,5 @@ use crate::scimon::Scimon;
 
 #[tokio::main]
 async fn main() {
-    Scimon::init().await;
+    Scimon.init().await;
 }
