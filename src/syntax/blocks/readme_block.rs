@@ -72,7 +72,7 @@ impl ReadMeBlock {
                 
                 if let Ok(contents) = Render.render_content(&run, markdown_html).await {
                     FileUtils.write_file(&path, contents);
-                    Markdown::open_file(&path, flags.no_open_link);
+                    Markdown.open_file(&path, flags.no_open_link);
                     
                     MacrosAlerts::readme(&path);
                 }

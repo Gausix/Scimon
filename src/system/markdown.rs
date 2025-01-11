@@ -33,7 +33,7 @@ pub struct Markdown;
 
 impl Markdown {
 
-    pub fn open_file(path: &str, no_open_link: bool) {
+    pub fn open_file(&self, path: &str, no_open_link: bool) {
         if !no_open_link {
             let full_path = env::current_dir().expect(
                 ""
