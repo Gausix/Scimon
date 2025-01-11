@@ -49,7 +49,7 @@ impl Providers {
 
     pub async fn generic(&self) -> Result<(String, String), Box<dyn Error>> {
         let request_uri = self.url.to_string();
-        let filename = Remote::get_filename(&self.url, true).await?;
+        let filename = Remote.get_filename(&self.url, true).await?;
 
         Ok((request_uri, filename))
     }

@@ -89,12 +89,12 @@ impl ReadMeBlock {
                     &get_last_part.replace(".md", ".html")
                 );
     
-                let markdown_content = Remote::content(&url).await?;
+                let markdown_content = Remote.content(&url).await?;
                 let contents_extras = Markdown.append_extras_and_render(&markdown_content);
 
                 if let Ok(contents) = Render.render_content(&get_last_part, contents_extras).await {
                     FileUtils.write_file(&path, contents);
-                    Markdown::open_file(&path, flags.no_open_link);
+                    Markdown.open_file(&path, flags.no_open_link);
                     
                     MacrosAlerts::readme(&path);
                 }

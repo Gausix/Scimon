@@ -46,7 +46,7 @@ impl RenderInject {
             Addons::DEFAULT_CSS_STYLE.to_string()
         };
 
-        let css_style = Remote::content(&css_cdn).await?;
+        let css_style = Remote.content(&css_cdn).await?;
 
         let html = format!(
             "<!DOCTYPE html>

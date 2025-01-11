@@ -68,7 +68,7 @@ impl Markdown {
     }
 
     pub async fn render(&self, url: &str) -> Result<String, Box<dyn Error>> {
-        let markdown_content = Remote::content(url).await?;
+        let markdown_content = Remote.content(url).await?;
     
         let options = Options::empty();
         let parser = Parser::new_ext(&markdown_content, options);
@@ -80,7 +80,7 @@ impl Markdown {
     }
 
     pub async fn create(&self, contents: &str, url: &str, path: &str) -> Result<(), Box<dyn Error>> {
-        if Remote::check_content_type(&url, "text/markdown").await? || url.contains(".md") {
+        if Remote.check_content_type(&url, "text/markdown").await? || url.contains(".md") {
             let html_content = self.render(url).await?;
             let content = RenderInject.html_content(contents, html_content).await?;
             

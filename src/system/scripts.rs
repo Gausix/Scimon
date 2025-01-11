@@ -58,7 +58,7 @@ impl Scripts {
                 let path = Folders::SCRIPTS_FOLDER.to_str().unwrap_or_default().to_string();
 
                 FileUtils.create_path(&path);
-                Remote::download(&line_trimmed, &path).await?
+                Remote.download(&line_trimmed, &path).await?
             } else {
                 line_trimmed.to_string()
             };

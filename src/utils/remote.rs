@@ -14,19 +14,19 @@ pub struct Remote;
 
 impl Remote {
 
-    pub async fn get_status_code(url: &str) -> u16 {
+    pub async fn get_status_code(&self, url: &str) -> u16 {
         reqwest::get(url)
             .await
             .map(|response| response.status().as_u16())
             .unwrap_or(0)
     }
 
-    pub async fn content(url: &str) -> Result<String, Box<dyn Error>> {
+    pub async fn content(&self, url: &str) -> Result<String, Box<dyn Error>> {
         let response = reqwest::get(url).await?;
         Ok(response.text().await?)
     }
 
-    pub async fn get_file_size(url: &str) -> Result<u64, Box<dyn Error>> {
+    pub async fn get_file_size(&self, url: &str) -> Result<u64, Box<dyn Error>> {
         let response = reqwest::get(url).await?;
     
         let total_size = response
@@ -39,7 +39,7 @@ impl Remote {
         Ok(total_size)
     }
 
-    pub async fn get_filename(url: &str, pdf: bool) -> Result<String, Box<dyn Error>> {
+    pub async fn get_filename(&self, url: &str, pdf: bool) -> Result<String, Box<dyn Error>> {
         let filename = FileUtils.detect_name(
             url, reqwest::get(url).await?.headers().get("content-disposition"), pdf
         ).await?;
@@ -47,7 +47,7 @@ impl Remote {
         Ok(filename)
     }
     
-    pub async fn check_content_type(url: &str, mime_type: &str) -> Result<bool, Box<dyn Error>> {
+    pub async fn check_content_type(&self, url: &str, mime_type: &str) -> Result<bool, Box<dyn Error>> {
         let client: reqwest::Client = reqwest::Client::new();
         let response = client.get(url).send().await?;
 
@@ -66,11 +66,11 @@ impl Remote {
         Ok(false)
     }
 
-    pub async fn download(url: &str, path: &str) -> Result<String, Box<dyn Error>> {
+    pub async fn download(&self, url: &str, path: &str) -> Result<String, Box<dyn Error>> {
         let response = reqwest::get(url).await?;
         
         if response.status().is_success() {
-            let filename = Remote::get_filename(url, false).await?;
+            let filename = Remote.get_filename(url, false).await?;
             
             let file_path = format!(
                 "{}/{}", path, url.split("/").last().unwrap_or(&filename)
