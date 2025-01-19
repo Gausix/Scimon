@@ -12,7 +12,7 @@ pub struct RunnerBlock;
 
 impl RunnerBlock {
 
-    pub async fn read_lines<R>(reader: R) -> Result<(), Box<dyn Error>> where R: BufRead {
+    pub async fn read_lines<R>(&self, reader: R) -> Result<(), Box<dyn Error>> where R: BufRead {
         let contents = reader.lines().collect::<Result<Vec<_>, _>>()?.join("\n");
         let start_index = match (contents.find("commands {"), contents.find("commands{")) {
             (Some(idx1), Some(idx2)) => Some(idx1.min(idx2)),

@@ -66,7 +66,7 @@ impl Scimon {
                 let _ = monset.downloads(&flags).await;
                 let _ = monset.run_code().await;
                 
-                let _ = ReadMeBlock::render_block_and_save_file(run, &flags);
+                let _ = ReadMeBlock.render_block_and_save_file(run, &flags);
             } else {
                 let _ = Monlib.get(run, &flags).await;
             }

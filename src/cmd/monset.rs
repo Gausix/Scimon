@@ -70,7 +70,7 @@ impl Monset {
 
     pub async fn downloads(&self, flags: &Flags) -> Result<(), Box<dyn Error>> {
         let mut reader = self.read_file().await?;
-        let _ = DownloadsBlock::read_lines(&mut reader, &flags).await?;
+        let _ = DownloadsBlock.read_lines(&mut reader, &flags).await?;
         let _ = Tasks.prints(reader).await?;
 
         Ok(())
@@ -78,7 +78,7 @@ impl Monset {
 
     pub async fn run_code(&self) -> Result<(), Box<dyn Error>> {
         let mut reader = self.read_file().await?;
-        RunnerBlock::read_lines(&mut reader).await?;
+        RunnerBlock.read_lines(&mut reader).await?;
 
         Ok(())
     }

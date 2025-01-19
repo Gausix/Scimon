@@ -24,7 +24,7 @@ pub struct ReadMeBlock;
 
 impl ReadMeBlock {
 
-    fn render(input: &str) -> Option<String> {
+    fn render(&self, input: &str) -> Option<String> {
         let contents = fs::read_to_string(input).expect("Failed to read file");
     
         let start_pattern = Regex::new(BlocksRegExp::GET_README_BLOCK[0]).unwrap();
@@ -65,9 +65,9 @@ impl ReadMeBlock {
         }
     }
 
-    pub async fn render_block_and_save_file(run: &str, flags: &Flags) {
+    pub async fn render_block_and_save_file(&self, run: &str, flags: &Flags) {
         if !flags.no_readme {
-            if let Some(markdown_html) = Self::render(run) {
+            if let Some(markdown_html) = self.render(run) {
                 let path = Markdown.get_filename_rendered(run);
                 
                 if let Ok(contents) = Render.render_content(&run, markdown_html).await {
@@ -80,7 +80,7 @@ impl ReadMeBlock {
         }
     }
 
-    pub async fn render_var_and_save_file(contents: &str, flags: &Flags) -> Result<(), Box<dyn Error>> {
+    pub async fn render_var_and_save_file(&self, contents: &str, flags: &Flags) -> Result<(), Box<dyn Error>> {
         if !flags.no_readme {
             if let Some(url) = Vars.get_readme(contents).await {
                 let get_last_part = &UrlMisc::get_last_part(&url);

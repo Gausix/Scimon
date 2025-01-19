@@ -38,7 +38,7 @@ pub struct DownloadsBlock;
 
 impl DownloadsBlock {
     
-    async fn block(contents: &str, downloads_content: &str, path: &str, flags: &Flags) -> Result<(), Box<dyn Error>> {
+    async fn block(&self, contents: &str, downloads_content: &str, path: &str, flags: &Flags) -> Result<(), Box<dyn Error>> {
         let mut seen_urls = HashSet::new();
 
         for line in downloads_content.lines() {
@@ -74,7 +74,7 @@ impl DownloadsBlock {
         Ok(())
     }
 
-    pub async fn read_lines<R>(reader: R, flags: &Flags) -> Result<(), Box<dyn Error>> where R: BufRead {
+    pub async fn read_lines<R>(&self, reader: R, flags: &Flags) -> Result<(), Box<dyn Error>> where R: BufRead {
         let contents = reader.lines().collect::<Result<Vec<_>, _>>()?.join("\n");
         let path = Vars.get_path(&contents);
 
@@ -95,7 +95,7 @@ impl DownloadsBlock {
             }
 
             UI::section_header("downloads", "normal");
-            Self::block(&contents, downloads_content, &path, flags).await?;
+            self.block(&contents, downloads_content, &path, flags).await?;
 
             Compress::new(&contents).get()?;
             Covers::new(&contents).get().await?;
@@ -103,7 +103,7 @@ impl DownloadsBlock {
             Math::new(&contents).render()?;
             
             Vars.get_open(&contents, flags.no_open_link).await;
-            ReadMeBlock::render_var_and_save_file(&contents, flags).await?;
+            ReadMeBlock.render_var_and_save_file(&contents, flags).await?;
 
             Checksum::new(Some(contents)).files()?;
         } else {
