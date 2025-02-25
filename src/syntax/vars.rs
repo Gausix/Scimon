@@ -87,13 +87,13 @@ impl Vars {
 
     pub fn get_print(&self, contents: &str) -> Option<String> {
         let print_pattern = Regex::new(BlocksRegExp::GET_PRINT_VAR).unwrap();
-    
-        if let Some(caps) = print_pattern.captures(&contents) {
+        
+        if let Some(caps) = print_pattern.captures(contents) {
             UI::section_header("print", "normal");
-
+    
             let print = caps.get(1).map(|m| m.as_str().to_string())?;
             println!("{}", print);
-
+    
             None
         } else {
             None

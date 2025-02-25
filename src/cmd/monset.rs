@@ -61,17 +61,12 @@ impl Monset {
         Ok(Cursor::new(buffer))
     }
 
-    pub async fn prints(&self) -> Result<(), Box<dyn Error>> {
-        let mut reader = self.read_file().await?;
-        let _ = Tasks.prints(&mut reader).await?;
-
-        Ok(())
-    }
-
     pub async fn downloads(&self, flags: &Flags) -> Result<(), Box<dyn Error>> {
         let mut reader = self.read_file().await?;
+        let reader_clone = reader.clone();
+        
+        let _ = Tasks.prints(reader_clone).await?;
         let _ = DownloadsBlock.read_lines(&mut reader, &flags).await?;
-        let _ = Tasks.prints(reader).await?;
 
         Ok(())
     }

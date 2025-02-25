@@ -1,21 +1,19 @@
+// scimon.rs
 use clap::Parser;
 use std::error::Error;
 
 use crate::{
-    args_cli::Flags,
+    args_cli::{Flags, Commands},
     cmd::monset::Monset,
     syntax::blocks::readme_block::ReadMeBlock,
-
     ui::{
         ui_base::UI,
         errors_alerts::ErrorsAlerts,
     },
-
     addons::{
         scrape::Scrape,
         monlib::Monlib,
     },
-
     configs::{
         env::Env,
         settings::Settings,
@@ -27,7 +25,6 @@ use crate::{
 pub struct Scimon;
 
 impl Scimon {
-    
     async fn options(&self, options: &str) -> Result<(), Box<dyn Error>> {
         match options {
             "open-env" => Env.open_env_file()?,
@@ -37,7 +34,7 @@ impl Scimon {
             "download-settings" => DownloadConfigsFiles.settings_file(true, true).await?,
             _ => (),
         };
-        
+
         Ok(())
     }
 
@@ -53,27 +50,30 @@ impl Scimon {
         }
 
         let flags = Flags::parse();
-        let url = flags.url.as_deref().unwrap_or_default();
-        let run = flags.run.as_deref().unwrap_or_default();
-        let options = flags.options.as_deref().unwrap_or_default();
-        
-        if !run.is_empty() {
-            UI::header();
-            let monset = Monset::new(run);
+        let flags_clone = flags.clone();
 
-            if !Monlib.check_is_user(run) {
-                let _ = monset.prints().await;
-                let _ = monset.downloads(&flags).await;
-                let _ = monset.run_code().await;
-                
-                let _ = ReadMeBlock.render_block_and_save_file(run, &flags);
-            } else {
-                let _ = Monlib.get(run, &flags).await;
+        let url = flags.url.as_deref().unwrap_or_default();
+        let options = flags.options.as_deref().unwrap_or_default();
+
+        if let Some(command) = flags.command {
+            match command {
+                Commands::Run { file } => {
+                    UI::header();
+                    let monset = Monset::new(&file);
+
+                    if !Monlib.check_is_user(&file) {
+                        let _ = monset.downloads(&flags_clone).await;
+                        let _ = monset.run_code().await;
+
+                        let _ = ReadMeBlock.render_block_and_save_file(&file, &flags_clone);
+                    } else {
+                        let _ = Monlib.get(&file, &flags_clone).await;
+                    }
+                }
             }
         }
 
-        let _ = Scrape.get(&flags, url).await;
+        let _ = Scrape.get(&flags_clone, url).await;
         let _ = self.options(options).await;
     }
-
 }
