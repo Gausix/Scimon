@@ -7,7 +7,7 @@ You can download files using a local or remote list with `scimon`. Here are the 
 To download files specified in a local list, use the following command:
 
 ```shell
-scimon -r scimon.mon
+scimon run scimon.mon
 ```
 
 ### Downloading Files with a Remote List
@@ -15,7 +15,7 @@ scimon -r scimon.mon
 To download files specified in a remote list, use the following command:
 
 ```shell
-scimon -r https://example.com/scimon.mon
+scimon run https://example.com/scimon.mon
 ```
 
 ### Useful Flags for Download List
@@ -27,7 +27,7 @@ There are several flags available to customize the download process. Here are so
 Use the `--no-ignore` flag to download all files without skipping any:
 
 ```shell
-scimon -r scimon.mon --no-ignore
+scimon run scimon.mon --no-ignore
 ```
 
 ### Skip All Comments
@@ -35,7 +35,7 @@ scimon -r scimon.mon --no-ignore
 Use the `--no-comments` flag to skip downloading lines that are comments:
 
 ```shell
-scimon -r scimon.mon --no-comments
+scimon run scimon.mon --no-comments
 ```
 
 ### Skip README File Rendering
@@ -43,7 +43,7 @@ scimon -r scimon.mon --no-comments
 Use the `--no-readme` flag to skip rendering README files during the download process:
 
 ```shell
-scimon -r scimon.mon --no-readme
+scimon run scimon.mon --no-readme
 ```
 
 By using these flags, you can control how `scimon` handles different parts of the download list, ensuring a customized download process according to your needs.

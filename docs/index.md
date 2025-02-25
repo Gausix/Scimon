@@ -62,5 +62,5 @@ commands {
 Run the command:
 
 ```bash
-scimon -r scimon.mon
+scimon run scimon.mon
 ```

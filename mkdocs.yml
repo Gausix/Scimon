@@ -1,5 +1,5 @@
 site_name: Scimon
-repo_url: https://github.com/kremilly/Scimon
+repo_url: https://github.com/Gausix/Scimon
 theme:
   name: material
   features:
@@ -75,4 +75,4 @@ extra:
     
     generator: false
 
-copyright: Copyright &copy; 2024 Kremillly
+copyright: Copyright &copy; 2025 Gausix
