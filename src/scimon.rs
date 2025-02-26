@@ -61,15 +61,15 @@ impl Scimon {
                     UI::header();
                     let monset = Monset::new(&file);
 
-                    if !Monlib.check_is_user(&file) {
-                        let _ = monset.downloads(&flags_clone).await;
-                        let _ = monset.run_code().await;
+                    let _ = monset.downloads(&flags_clone).await;
+                    let _ = monset.run_code().await;
+                    let _ = ReadMeBlock.render_block_and_save_file(&file, &flags_clone);
+                },
 
-                        let _ = ReadMeBlock.render_block_and_save_file(&file, &flags_clone);
-                    } else {
-                        let _ = Monlib.get(&file, &flags_clone).await;
-                    }
-                }
+                Commands::Get { file } => {
+                    UI::header();
+                    let _ = Monlib.get(&file, &flags_clone).await;
+                },
             }
         }
 

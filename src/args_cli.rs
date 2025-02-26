@@ -42,4 +42,10 @@ pub enum Commands {
         /// File or task to be executed
         file: String,
     },
+
+    /// Get datasets of the links from the web
+    Get {
+        /// File or task to be executed
+        file: String,
+    },
 }

@@ -9,8 +9,8 @@ use std::{
     error::Error,
     
     io::{
-        self,
-        BufRead
+        Cursor,
+        BufRead,
     }
 };
 
@@ -23,7 +23,6 @@ use crate::{
     args_cli::Flags,
     cmd::tasks::Tasks,
     configs::env::Env,
-    utils::str::StrUtils,
     consts::addons::Addons,
     ui::errors_alerts::ErrorsAlerts,
 };
@@ -53,24 +52,13 @@ impl Error for ApiError {}
 pub struct Monlib;
 
 impl Monlib {
-    
-    pub fn check_is_user(&self, input: &str) -> bool {
-        let parts: Vec<&str> = input.split('/').collect();
-
-        if parts.len() == 2 && input.starts_with('@') && !parts[1].is_empty() {
-            return true
-        }
-
-        false
-    }
 
     pub async fn get(&self, run: &str, flags: &Flags) -> Result<String, Box<dyn Error>> {
-        let list = StrUtils::remove_initial_character(run, '@');
         let mut url = Addons::MONLIB_API_REQUEST.to_owned();
     
         url.push_str("lists");
         url.push_str("/");
-        url.push_str(&list);
+        url.push_str(&run);
         url.push_str("/raw");
     
         let client = Client::builder().danger_accept_invalid_certs(true).build()?;
@@ -99,7 +87,7 @@ impl Monlib {
             }
     
             if !is_json {
-                let lines_iter = io::Cursor::new(&data).lines();
+                let lines_iter = Cursor::new(&data).lines();
     
                 for line_result in lines_iter {
                     let path = "packages/";
