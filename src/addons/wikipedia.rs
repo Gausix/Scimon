@@ -28,7 +28,6 @@ impl Wikipedia {
         ), wiki_name);
 
         let filename = format!("{}.pdf", wiki_name);
-
         (request_url, filename)
     }
 
@@ -41,7 +40,6 @@ impl Wikipedia {
         ), wiki_name);
 
         let filename = format!("{}.pdf", wiki_name);
-
         (request_url, filename)
     }
 

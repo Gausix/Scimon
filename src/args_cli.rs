@@ -44,7 +44,13 @@ pub enum Commands {
     },
 
     /// Get datasets of the links from the web
-    Get {
+    Pull {
+        /// File or task to be executed
+        file: String,
+    },
+
+    /// Get datasets of the links from the web
+    Push {
         /// File or task to be executed
         file: String,
     },

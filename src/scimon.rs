@@ -66,9 +66,14 @@ impl Scimon {
                     let _ = ReadMeBlock.render_block_and_save_file(&file, &flags_clone);
                 },
 
-                Commands::Get { file } => {
+                Commands::Pull { file } => {
                     UI::header();
                     let _ = Monlib.get(&file, &flags_clone).await;
+                },
+
+                Commands::Push { file } => {
+                    UI::header();
+                    let _ = Monlib.publish(&file).await;
                 },
             }
         }

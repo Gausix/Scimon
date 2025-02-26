@@ -1,5 +1,6 @@
 extern crate reqwest;
 
+use regex::Regex;
 use serde_json::Value;
 use serde::Deserialize;
 
@@ -24,7 +25,12 @@ use crate::{
     cmd::tasks::Tasks,
     configs::env::Env,
     consts::addons::Addons,
-    ui::errors_alerts::ErrorsAlerts,
+    regexp::regex_blocks::BlocksRegExp,
+
+    ui::{
+        panic_alerts::PanicAlerts,
+        errors_alerts::ErrorsAlerts,
+    },
 };
 
 #[derive(Debug, Deserialize)]
@@ -53,7 +59,34 @@ pub struct Monlib;
 
 impl Monlib {
 
+    fn validator(&self, run: &str) -> bool {
+        let content = fs::read_to_string(run).unwrap_or_default();
+        if content.is_empty() {
+            return false;
+        }
+    
+        BlocksRegExp::GET_PATTERNS_MONLIB_VARS.iter().any(|pattern| {
+            let re = Regex::new(pattern).expect("Erro ao compilar a regex");
+            re.is_match(&content)
+        })
+    }
+
+    pub async fn publish(&self, run: &str) -> Result<(), Box<dyn Error>> {
+        if !&self.validator(&run) {
+            PanicAlerts::monlib_invalid_lib();
+            return Ok(());
+        }
+
+        println!("Monlib publish");
+        Ok(())
+    }
+
     pub async fn get(&self, run: &str, flags: &Flags) -> Result<String, Box<dyn Error>> {
+        if !&self.validator(&run) {
+            PanicAlerts::monlib_invalid_lib();
+            return Ok(String::new());
+        }
+
         let mut url = Addons::MONLIB_API_REQUEST.to_owned();
     
         url.push_str("lists");
@@ -95,7 +128,7 @@ impl Monlib {
                     let _ = fs::create_dir(&path);
 
                     Tasks.download(
-                        None, &url, &path, flags,
+                        None, &url, &path, &flags,
                     ).await?;
                 }
             }

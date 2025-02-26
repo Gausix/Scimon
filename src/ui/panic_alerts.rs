@@ -34,4 +34,9 @@ impl PanicAlerts {
         Self::message("The compresss level set is invalid.");
     }
 
+    pub fn monlib_invalid_lib() {
+        UI::section_header("monlib invalid library", "error");
+        Self::message("The library set is invalid.");
+    }
+
 }

@@ -24,5 +24,15 @@ impl BlocksRegExp {
     pub const GET_COMPRESS_VAR: &'static str = r#"(?i)compress\s*"([^"]+)""#;
 
     pub const GET_MATH_VAR: &'static str = r#"math\s+['"]([^'"]+)['"]\s*>\s*(\S+)"#;
-      
+
+    pub const GET_PATTERNS_MONLIB_VARS: [&'static str; 7] = [
+        r#"(?m)^\s*@name\s+"[^"]+""#,
+        r#"(?m)^\s*@version\s+"[^"]+""#,
+        r#"(?m)^\s*@description\s+"[^"]+""#,
+        r#"(?m)^\s*@author\s+"[^"]+""#,
+        r#"(?m)^\s*@license\s+"[^"]+""#,
+        r#"(?m)^\s*@privacy\s+"[^"]+""#,
+        r#"(?m)^\s*@homepage\s+"[^"]+""#,
+    ];
+     
 }
