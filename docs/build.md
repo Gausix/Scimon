@@ -5,7 +5,7 @@
 If you don't already have the project on your local machine, you need to clone the repository from Git. Open a terminal and run:
 
 ```sh
-git clone https://github.com/Scibun/Scimon.git
+git clone https://github.com/Gausix/Scimon.git
 ```
 
 ### 2. Setup Your Environment
@@ -88,7 +88,7 @@ Compiling scimon v0.1.0 (/path/to/your/project)
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/Scibun/Scimon.git
+   git clone https://github.com/Gausix/Scimon.git
    cd Scimon
    ```
 2. Setup your environment:
