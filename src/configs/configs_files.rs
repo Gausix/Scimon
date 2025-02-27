@@ -73,7 +73,7 @@ impl DownloadConfigsFiles {
       
     pub async fn settings_file(&self, print: bool, force_mode: bool) -> Result<(), Box<dyn Error>> {
         let output_directory = &*Folders::APP_FOLDER;
-        let uri = format!("{}{}", Addons::DOWNLOAD_FILES_URI, "scimon.yml");
+        let uri = format!("{}{}.yml", Addons::DOWNLOAD_FILES_URI, Global::APP_NAME.to_lowercase());
     
         TkFs::create_dir_all(
             output_directory.clone()
