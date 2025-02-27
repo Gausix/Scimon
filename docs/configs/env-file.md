@@ -5,7 +5,7 @@
 **To open .env file, simply use run:**
 
 ```shell
-scimon --options open-env
+scimon options open-env
 ```
 
 ### .env file locations in Operations Systems:

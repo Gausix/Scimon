@@ -16,6 +16,24 @@ render_markdown:
   minify_html: true # Boolean (valid values: 'true' or 'false'; default: 'true')
 ```
 
+## Open `scimon.yml` file
+
+To open the `scimon.yml` file, run the following command:
+
+```shell
+scimon options open-settings
+```
+
+## Download `scimon.yml` file
+
+To download the `scimon.yml` file, run the following command:
+
+```shell
+scimon options download-settings
+```
+
+## `scimon.yml` file locations in Operations Systems:
+
 Save this file at the following location:
 
 | System  | Location                                                                 |
