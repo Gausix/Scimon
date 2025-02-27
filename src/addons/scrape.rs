@@ -48,38 +48,36 @@ impl Scrape {
     }
 
     pub async fn get(&self, flags: &Flags, url: &str) -> Result<(), Box<dyn Error>> {
-        if flags.scrape {
-            match self.fetch_items(url).await {
-                Ok(response) => {
-                    if let Some(success) = response.success {
-                        if !success {
-                            ErrorsAlerts::generic(&response.message);
-                            return Ok(())
-                        }
-                    }
-    
-                    if let Some(total) = response.total {
-                        if total > 0 {
-                            if !response.list.is_empty() {
-                                for item in &response.list {
-                                    if !item.encrypted {
-                                        let path = Folders::SCRAPE_FOLDER.to_str().unwrap().to_string();
-                                        let url = &item.url;
-
-                                        Tasks.download(
-                                            None, url, &path, flags,
-                                        ).await?;
-                                    }
-                                }
-                            }
-                        } else {
-                            ErrorsAlerts::generic(&response.message);
-                        }
+        match self.fetch_items(url).await {
+            Ok(response) => {
+                if let Some(success) = response.success {
+                    if !success {
+                        ErrorsAlerts::generic(&response.message);
+                        return Ok(())
                     }
                 }
 
-                Err(e) => ErrorsAlerts::generic(&e.to_string())
+                if let Some(total) = response.total {
+                    if total > 0 {
+                        if !response.list.is_empty() {
+                            for item in &response.list {
+                                if !item.encrypted {
+                                    let path = Folders::SCRAPE_FOLDER.to_str().unwrap().to_string();
+                                    let url = &item.url;
+
+                                    Tasks.download(
+                                        None, url, &path, flags,
+                                    ).await?;
+                                }
+                            }
+                        }
+                    } else {
+                        ErrorsAlerts::generic(&response.message);
+                    }
+                }
             }
+
+            Err(e) => ErrorsAlerts::generic(&e.to_string())
         }
     
         Ok(())

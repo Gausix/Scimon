@@ -7,14 +7,6 @@ use clap::{
 #[derive(Parser)]
 #[command(author, version, about)]
 pub struct Flags {
-    #[arg(short, long, global = true)]
-    /// URL to perform scraping on the page
-    pub url: Option<String>,
-
-    #[arg(long, global = true)]
-    /// Select scraping mode
-    pub scrape: bool,
-
     #[arg(long, global = true)]
     /// Ignore PDF files
     pub no_ignore: bool,
@@ -26,10 +18,6 @@ pub struct Flags {
     #[arg(long, global = true)]
     /// Disable the !readme directive
     pub no_readme: bool,
-
-    #[arg(long, global = true)]
-    /// Your settings
-    pub options: Option<String>,
 
     #[command(subcommand)]
     pub command: Option<Commands>,
@@ -53,5 +41,17 @@ pub enum Commands {
     Push {
         /// File or task to be executed
         file: String,
+    },
+
+    /// Scraping the web page for list of documents
+    Scrape {
+        /// Url to scrape
+        url: String,
+    },
+
+    /// Option's for the Scimon CLI
+    Options {
+        /// Options for the Scimon CLI
+        options: String,
     },
 }

@@ -1,19 +1,21 @@
-// scimon.rs
 use clap::Parser;
 use std::error::Error;
 
 use crate::{
-    args_cli::{Flags, Commands},
+    args_cli::*,
     cmd::monset::Monset,
     syntax::blocks::readme_block::ReadMeBlock,
+
     ui::{
         ui_base::UI,
         errors_alerts::ErrorsAlerts,
     },
+
     addons::{
         scrape::Scrape,
         monlib::Monlib,
     },
+
     configs::{
         env::Env,
         settings::Settings,
@@ -52,13 +54,11 @@ impl Scimon {
         let flags = Flags::parse();
         let flags_clone = flags.clone();
 
-        let url = flags.url.as_deref().unwrap_or_default();
-        let options = flags.options.as_deref().unwrap_or_default();
-
         if let Some(command) = flags.command {
             match command {
                 Commands::Run { file } => {
                     UI::header();
+
                     let monset = Monset::new(&file);
 
                     let _ = monset.downloads(&flags_clone).await;
@@ -75,10 +75,16 @@ impl Scimon {
                     UI::header();
                     let _ = Monlib.publish(&file).await;
                 },
+
+                Commands::Scrape { url } => {
+                    UI::header();
+                    let _ = Scrape.get(&flags_clone, &url).await;
+                },
+
+                Commands::Options { options } => {
+                    let _ = self.options(&options).await;
+                },
             }
         }
-
-        let _ = Scrape.get(&flags_clone, url).await;
-        let _ = self.options(options).await;
     }
 }
