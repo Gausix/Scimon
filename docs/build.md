@@ -41,10 +41,10 @@ To build the project, simply run:
 cargo build
 ```
 
-This command compiles your project and places the output binaries in the `target/debug` directory. You should see output similar to:
+This command compiles your ``Scimon`` and places the output binaries in the `target/debug` directory. You should see output similar to:
 
 ```
-Compiling scimon v0.1.0 (/path/to/your/project)
+Compiling scimon v0.1.0 (/path/to/scimon)
     Finished dev [unoptimized + debuginfo] target(s) in 2.34s
 ```
 
@@ -72,45 +72,3 @@ This command compiles your project with optimizations and places the output bina
 Compiling scimon v0.1.0 (/path/to/your/project)
     Finished release [optimized] target(s) in 2m 13s
 ```
-
-### Additional Commands
-
-- **Clean the Project**: To remove the `target` directory and clean the project, run:
-  ```sh
-  cargo clean
-  ```
-- **Run Tests**: To run tests defined in your project, use:
-  ```sh
-  cargo test
-  ```
-
-### Summary
-
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/Gausix/Scimon.git
-   cd Scimon
-   ```
-2. Setup your environment:
-   ```sh
-   rustc --version
-   cargo --version
-   ```
-3. Navigate to your project directory (if not already there):
-   ```sh
-   cd Scimon
-   ```
-4. Build the project:
-   ```sh
-   cargo build
-   ```
-5. Run the project:
-   ```sh
-   cargo run
-   ```
-6. For a release build:
-   ```sh
-   cargo build --release
-   ```
-
-By following these steps, you can successfully clone, build, and run your Scimon.
