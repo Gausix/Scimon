@@ -3,7 +3,6 @@ use serde_yaml::Value::String as SerdeValue;
 use std::{
     fs::File,
     error::Error,
-    path::PathBuf,
 
     io::{
         Read,
@@ -16,7 +15,10 @@ use serde_yaml::{
     from_str,
 };
 
-use crate::consts::folders::Folders;
+use crate::consts::{
+    global::Global,
+    folders::Folders,
+};
 
 pub struct Settings;
 
@@ -79,12 +81,16 @@ impl Settings {
 
     pub fn open_settings_file(&self) -> Result<(), IoError> {
         let app_folder = &*Folders::APP_FOLDER;
-        let env_path: PathBuf = app_folder.join("scibun.yml");
+        let app_name = Global::APP_NAME;
+
+        let settings_path = app_folder.join(
+            format!("{}.yml", app_name.to_lowercase())
+        );
 
         if let SerdeValue(editor) = self.get(
             "general.default_text_editor", "STRING"
         ) {
-            open::with(env_path, editor)?;
+            open::with(settings_path, editor)?;
         }
         
         Ok(())

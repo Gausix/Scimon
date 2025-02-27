@@ -16,6 +16,11 @@ impl SuccessAlerts {
         println!("{} Downloaded env file", current_datetime.green().bold());
     }
 
+    pub fn settings() {
+        let current_datetime = General.date_time();
+        println!("{} Downloaded setting's file", current_datetime.green().bold());
+    }
+
     pub fn write_env(var_name: &str) {
         let current_datetime = General.date_time();
 

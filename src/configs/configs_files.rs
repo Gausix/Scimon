@@ -90,7 +90,7 @@ impl DownloadConfigsFiles {
             self.force_mode(file_path, force_mode, response).await?;
     
             if print == true {
-                SuccessAlerts::env();
+                SuccessAlerts::settings();
             }
         } else {
             let status_code = response.status().to_string();
