@@ -8,6 +8,7 @@ use std::{
 
 use crate::{
     args_cli::Flags,
+    addons::scihub::SciHub,
     configs::settings::Settings,
     generator::qr_code::GenQrCode,
     
@@ -96,6 +97,11 @@ impl Tasks {
 
         if let Some(contents) = contents {
             Markdown.create(&contents, &line_url, &path).await?;
+        }
+
+        if line_url.contains("sci-hub") {
+            let scihub_url = SciHub::new(&line_url).get_pdf().await?;
+            Pdf.download_line(&scihub_url, &scihub_url, path).await?;
         }
 
         Pdf.download_line(&line_url, url, path).await?;
