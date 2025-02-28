@@ -8,6 +8,7 @@ use std::{
 
 use crate::{
     args_cli::Flags,
+    consts::uris::Uris,
     addons::scihub::SciHub,
     configs::settings::Settings,
     generator::qr_code::GenQrCode,
@@ -99,7 +100,7 @@ impl Tasks {
             Markdown.create(&contents, &line_url, &path).await?;
         }
 
-        if line_url.contains("sci-hub") {
+        if line_url.contains(Uris::PROVIDERS_DOMAINS[6]) {
             let scihub_url = SciHub::new(&line_url).get_pdf().await?;
             Pdf.download_line(&scihub_url, &scihub_url, path).await?;
         }

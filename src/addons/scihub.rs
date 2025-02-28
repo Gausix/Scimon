@@ -6,6 +6,8 @@ use scraper::{
     Selector
 };
 
+use crate::consts::uris::Uris;
+
 pub struct SciHub {
     url: String,
 }
@@ -18,6 +20,14 @@ impl SciHub {
         }
     }
 
+    fn complete_url(&self, src: &str) -> String {
+        if src.starts_with("//") {
+            format!("https:{}", src)
+        } else {
+            format!("https://{}{}", Uris::PROVIDERS_DOMAINS[6], src)
+        }
+    }
+
     pub async fn get_pdf(&self) -> Result<String, Box<dyn Error>> {
         let response = reqwest::get(&self.url).await?.text().await?;
 
@@ -26,15 +36,7 @@ impl SciHub {
 
         for element in document.select(&embed_selector) {
             if let Some(src) = element.value().attr("src") {
-                if src.starts_with("//") {
-                    return Ok(
-                        format!("https:{}", src)
-                    );
-                } else {
-                    return Ok(
-                        format!("https://sci-hub.se{}", src)
-                    );
-                }
+                return Ok(self.complete_url(src))
             }
         }
 
