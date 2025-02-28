@@ -5,6 +5,7 @@
 Scimon is compatible with various providers, enabling it to access and retrieve data from different sources. These providers include:
 
 * [Arxiv.org](https://arxiv.org): A popular repository for research papers in various fields of science.
+* [Sci-Hub](https://sci-hub.tw): A website that provides free access to research papers and articles.
 * [NASA](https://www.nasa.gov): The National Aeronautics and Space Administration, providing information and resources related to space exploration and aeronautics.
 * [SciELO](https://scielo.org): A digital library covering a wide range of scientific journals from Latin America, Spain, Portugal, and South Africa.
 * [Wikipedia](https://wikipedia.org): A free online encyclopedia covering a vast array of topics in multiple languages.
