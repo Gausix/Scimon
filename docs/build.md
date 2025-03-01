@@ -69,6 +69,6 @@ cargo build --release
 This command compiles your project with optimizations and places the output binaries in the `target/release` directory. The output will be similar to:
 
 ```
-Compiling scimon v0.1.0 (/path/to/your/project)
+Compiling scimon v0.1.0 (/path/to/scimon)
     Finished release [optimized] target(s) in 2m 13s
 ```
