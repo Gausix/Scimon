@@ -58,7 +58,6 @@ impl Scimon {
             match command {
                 Commands::Run { file } => {
                     UI::header();
-
                     let monset = Monset::new(&file);
 
                     let _ = monset.downloads(&flags_clone).await;
