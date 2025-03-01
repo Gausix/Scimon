@@ -11,7 +11,11 @@ use headless_chrome::{
 use crate::{
     consts::addons::Addons,
     configs::settings::Settings,
-    render::render_inject::RenderInject,
+
+    render::{
+        render_images::RenderImages,
+        render_inject::RenderInject,
+    },
 
     utils::{
         base64::Base64,
@@ -27,6 +31,7 @@ impl Render {
         let minify_prop = Settings.get("render_markdown.minify_html", "BOOLEAN");
         let template_content = Remote.content(Addons::README_TEMPLATE_LINK).await?;
         let content = RenderInject.content(&file, template_content, md_content);
+        let content = RenderImages::new(content).render().await?;
 
         let output = if minify_prop == true {
             minify(&content)
