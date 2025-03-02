@@ -61,7 +61,7 @@ impl Tasks {
                 let url = line.trim().split_whitespace().next().unwrap_or("");
 
                 if line.trim().starts_with("downloads {") {
-                    return Ok(());
+                    continue;
                 } else if line.trim().starts_with("}") {
                     break;
                 }
