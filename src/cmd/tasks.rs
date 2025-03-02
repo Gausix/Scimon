@@ -118,7 +118,9 @@ impl Tasks {
         if line_url.contains(Uris::PROVIDERS_DOMAINS[7]) {
             let chat_gpt = ChatGPT::new(&line_url, &path);
             chat_gpt.convert().await?;
-        } else {
+        }
+
+        if !line_url.contains(Uris::PROVIDERS_DOMAINS[6]) && !line_url.contains(Uris::PROVIDERS_DOMAINS[7]) {
             Pdf.download_line(&line_url, url, path).await?;
         }
 
