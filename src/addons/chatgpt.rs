@@ -33,6 +33,11 @@ impl ChatGPT {
         Ok((title, html_content))
     }
 
+    pub fn title(&self) -> Result<String, Box<dyn Error>> {
+        let (title, _) = self.get_content()?;
+        Ok(title)
+    }
+
     pub async fn convert(&self) -> Result<(), Box<dyn Error>> {
         let (file_name, html_content) = self.get_content()?;
         let styled_html = Templates.chatgpt(&html_content);

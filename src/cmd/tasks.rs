@@ -74,7 +74,13 @@ impl Tasks {
                         let qrcode_size = value.as_i64().expect("Invalid qrcode_size value. Must be an integer.") as usize;
             
                         let name = FileNameRemote::new(url).get();
-                        let name_pdf = FileUtils.replace_extension(&name, "png");
+                        let qr_code_name = if url.contains(Uris::PROVIDERS_DOMAINS[7]) {
+                            ChatGPT::new(&url, "").title()?.to_string().replace(" ", "_")
+                        } else {
+                            name
+                        };
+
+                        let name_pdf = FileUtils.replace_extension(&qr_code_name, "png");
                         let file_path = format!("{}{}", qrcode_path, name_pdf);
                         
                         GenQrCode::new(&url, qrcode_size).png(&file_path).unwrap();
