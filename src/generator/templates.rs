@@ -2,7 +2,7 @@ pub struct Templates;
 
 impl Templates {
 
-    pub fn chatgpt(&self, html_content: &str) -> String {
+    pub fn generic(&self, html_content: &str) -> String {
         format!(r#"
             <html>
             <head>
