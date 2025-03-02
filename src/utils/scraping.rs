@@ -1,5 +1,9 @@
-use std::error::Error;
 use headless_chrome::Browser;
+
+use std::{
+    fs::write,
+    error::Error,
+};
 
 use scraper::{
     Html, 
@@ -59,6 +63,21 @@ impl Scraping {
         }
 
         return html_content;
+    }
+
+    pub fn print_pdf(&self, path: &str) -> Result<(), Box<dyn Error>> {
+        let data_url = format!("data:text/html;charset=utf-8,{}", &self.url);
+
+        let browser = Browser::default()?;
+        let tab = browser.new_tab()?;
+
+        tab.navigate_to(&data_url)?;
+        tab.wait_until_navigated()?;
+
+        let contents = tab.print_to_pdf(None)?;
+        write(path, contents)?;
+
+        Ok(())
     }
 
 }

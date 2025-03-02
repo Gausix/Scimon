@@ -1,10 +1,6 @@
 use urlencoding::encode;
-use headless_chrome::Browser;
 
-use std::{
-    fs::write,
-    error::Error,
-};
+use std::error::Error;
 
 use crate::{
     consts::addons::Addons,
@@ -44,16 +40,8 @@ impl ChatGPT {
         let file = format!("{}.pdf", &file_name.replace(" ", "_"));
         let path = format!("{}{}", &self.path, &file);
         let data_url = format!("data:text/html;charset=utf-8,{}", encode(&styled_html));
-    
-        let browser = Browser::default()?;
-        let tab = browser.new_tab()?;
-    
-        tab.navigate_to(&data_url)?;
-        tab.wait_until_navigated()?;
-    
-        let contents = tab.print_to_pdf(None)?;
-        write(&path, contents)?;
-    
+
+        Scraping::new(&data_url).print_pdf(path.as_str())?;
         SuccessAlerts::download_and_generated_pdf(&file, &self.url);
         Ok(())
     }
