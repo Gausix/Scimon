@@ -44,7 +44,7 @@ impl ChatGPT {
 
         let file = format!("{}.pdf", &file_name.replace(" ", "_"));
         let path = format!("{}{}", &self.path, &file);
-        let data_url = format!("data:text/html;charset=utf-8,{}", encode(&styled_html));
+        let data_url = encode(&styled_html);
 
         Scraping::new(&data_url).print_pdf(path.as_str())?;
         SuccessAlerts::download_and_generated_pdf(&file, &self.url);
