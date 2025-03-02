@@ -9,9 +9,13 @@ use std::{
 use crate::{
     args_cli::Flags,
     consts::uris::Uris,
-    addons::scihub::SciHub,
     configs::settings::Settings,
     generator::qr_code::GenQrCode,
+
+    addons::{
+        scihub::SciHub,
+        chatgpt::ChatGPT,
+    },
     
     ui::{
         ui_base::UI,
@@ -57,7 +61,7 @@ impl Tasks {
                 let url = line.trim().split_whitespace().next().unwrap_or("");
 
                 if line.trim().starts_with("downloads {") {
-                    continue;
+                    return Ok(());
                 } else if line.trim().starts_with("}") {
                     break;
                 }
@@ -105,7 +109,13 @@ impl Tasks {
             Pdf.download_line(&scihub_url, &scihub_url, path).await?;
         }
 
-        Pdf.download_line(&line_url, url, path).await?;
+        if line_url.contains(Uris::PROVIDERS_DOMAINS[7]) {
+            let chat_gpt = ChatGPT::new(&line_url, &path);
+            chat_gpt.convert().await?;
+        } else {
+            Pdf.download_line(&line_url, url, path).await?;
+        }
+
         Ok(())
     }
 

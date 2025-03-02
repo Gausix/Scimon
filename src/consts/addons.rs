@@ -11,5 +11,8 @@ impl Addons {
     pub const SCIMON_URLFILTER_API_ENDPOINT: &'static str = "https://addons.scimon.dev/urlfilter?url=";
 
     pub const README_TEMPLATE_LINK: &'static str = "https://readme.scimon.dev/";
+
+    // Chat GPT Content Class
+    pub const CHATGPT_CONTENT_CLASS: &'static str = ".markdown.prose.w-full.break-words.dark\\:prose-invert.dark";
     
 }
