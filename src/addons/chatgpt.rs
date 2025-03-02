@@ -13,6 +13,7 @@ use std::{
 
 use crate::{
     consts::addons::Addons,
+    generator::templates::Templates,
     ui::success_alerts::SuccessAlerts,
 };
 
@@ -29,12 +30,6 @@ impl ChatGPT {
             path: path.to_string()
         }
     }
-
-    fn styled_content(&self, html_content: &str) -> String {
-        format!(r#"
-            <html><head><meta charset="utf-8"><style>body {{ font-family: 'Helvetica', serif; }}</style></head><body>{}</body></html>
-        "#, html_content)
-    } 
 
     fn get_content(&self) -> Result<(String, String), Box<dyn Error>> {
         let mut html_content = String::new();
@@ -65,11 +60,10 @@ impl ChatGPT {
 
     pub async fn convert(&self) -> Result<(), Box<dyn Error>> {
         let (file_name, html_content) = self.get_content()?;
-        let styled_html = &self.styled_content(&html_content);
+        let styled_html = Templates.chat_gpt(&html_content);
 
         let file = format!("{}.pdf", &file_name);
         let path = format!("{}{}", &self.path, &file);
-    
         let data_url = format!("data:text/html;charset=utf-8,{}", encode(&styled_html));
     
         let browser = Browser::default()?;
