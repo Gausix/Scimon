@@ -27,6 +27,7 @@ use crate::{
 pub struct Scimon;
 
 impl Scimon {
+    
     async fn options(&self, options: &str) -> Result<(), Box<dyn Error>> {
         match options {
             "open-env" => Env.open_env_file()?,
