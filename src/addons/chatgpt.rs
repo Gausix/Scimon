@@ -13,6 +13,7 @@ use std::{
 
 use crate::{
     consts::addons::Addons,
+    utils::scraping::Scraping,
     generator::templates::Templates,
     ui::success_alerts::SuccessAlerts,
 };
@@ -42,15 +43,10 @@ impl ChatGPT {
 
         let content = tab.get_content()?;
         let document = Html::parse_document(&content);
-        let title_selector = Selector::parse("title")?;
         
-        let title = document
-            .select(&title_selector)
-            .next()
-            .map(|e| e.inner_html())
-            .unwrap_or_else(|| String::from("Untitled"));
-        
+        let title = Scraping.title(&content);
         let selector = Selector::parse(Addons::CHATGPT_CONTENT_CLASS)?;
+
         for element in document.select(&selector) {
             html_content.push_str(&element.inner_html());
         }
@@ -77,6 +73,6 @@ impl ChatGPT {
     
         SuccessAlerts::download_and_generated_pdf(&file, &self.url);
         Ok(())
-    }    
+    }
 
 }

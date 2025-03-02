@@ -4,5 +4,6 @@ pub mod file;
 pub mod remote;
 pub mod base64;
 pub mod domain;
+pub mod scraping;
 pub mod validation;
 pub mod file_name_remote;
