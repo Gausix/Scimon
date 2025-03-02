@@ -1,11 +1,6 @@
 use urlencoding::encode;
 use headless_chrome::Browser;
 
-use scraper::{
-    Html, 
-    Selector
-};
-
 use std::{
     fs::write,
     error::Error,
@@ -33,8 +28,6 @@ impl ChatGPT {
     }
 
     fn get_content(&self) -> Result<(String, String), Box<dyn Error>> {
-        let mut html_content = String::new();
-
         let browser = Browser::default()?;
         let tab = browser.new_tab()?;
 
@@ -42,14 +35,9 @@ impl ChatGPT {
         tab.wait_until_navigated()?;
 
         let content = tab.get_content()?;
-        let document = Html::parse_document(&content);
-        
-        let title = Scraping.title(&content);
-        let selector = Selector::parse(Addons::CHATGPT_CONTENT_CLASS)?;
 
-        for element in document.select(&selector) {
-            html_content.push_str(&element.inner_html());
-        }
+        let title = Scraping.title(&content);
+        let html_content = Scraping.content(&content, Addons::CHATGPT_CONTENT_CLASS);
     
         Ok((title, html_content))
     }
@@ -58,7 +46,7 @@ impl ChatGPT {
         let (file_name, html_content) = self.get_content()?;
         let styled_html = Templates.chat_gpt(&html_content);
 
-        let file = format!("{}.pdf", &file_name);
+        let file = format!("{}.pdf", &file_name.replace(" ", "_"));
         let path = format!("{}{}", &self.path, &file);
         let data_url = format!("data:text/html;charset=utf-8,{}", encode(&styled_html));
     
