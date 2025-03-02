@@ -1,6 +1,5 @@
-use std::error::Error;
-
 use minify::html;
+use std::error::Error;
 
 use crate::{
     syntax::vars::Vars,
