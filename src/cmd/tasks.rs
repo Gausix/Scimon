@@ -10,6 +10,7 @@ use crate::{
     args_cli::Flags,
     consts::uris::Uris,
     configs::settings::Settings,
+    system::providers::Providers,
     generator::qr_code::GenQrCode,
 
     addons::{
@@ -120,7 +121,7 @@ impl Tasks {
             chat_gpt.convert().await?;
         }
 
-        if !line_url.contains(Uris::PROVIDERS_DOMAINS[6]) && !line_url.contains(Uris::PROVIDERS_DOMAINS[7]) {
+        if !Providers::new(&line_url).check_provider() {
             Pdf.download_line(&line_url, url, path).await?;
         }
 

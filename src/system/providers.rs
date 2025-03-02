@@ -72,4 +72,16 @@ impl Providers {
         Ok((request_uri, filename))
     }
 
+    pub fn check_provider(&self) -> bool {
+        let domain = Domain::new(&self.url);
+
+        for url_domain in &Uris::PROVIDERS_DOMAINS {
+            if domain.check(url_domain) {
+                return true
+            }
+        }
+
+        false
+    }
+
 }
