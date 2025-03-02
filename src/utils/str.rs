@@ -2,7 +2,7 @@ pub struct StrUtils;
 
 impl StrUtils {
 
-    pub fn capitalize(text: &str) -> String {
+    pub fn capitalize(&self, text: &str) -> String {
         if text.is_empty() {
             return String::new();
         }
