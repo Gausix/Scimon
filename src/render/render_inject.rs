@@ -1,7 +1,10 @@
 use std::error::Error;
 
+use minify::html;
+
 use crate::{
     syntax::vars::Vars,
+    generator::templates::Templates,
 
     utils::{
         str::StrUtils,
@@ -47,21 +50,8 @@ impl RenderInject {
         };
 
         let css_style = Remote.content(&css_cdn).await?;
-
-        let html = format!(
-            "<!DOCTYPE html>
-            <html lang='en'>
-            <head>
-                <meta charset='UTF-8'>
-                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-                <style>{}</style>
-            </head>
-            <body>
-                <article class='markdown-body'>{}</article>
-            </body>
-            </html>",
-            css_style, html_content
-        );
+        let html = Templates.markdown(&css_style, &html_content);
+        let html = html::minify(html.as_str());
 
         Ok(html)
     }
