@@ -28,16 +28,11 @@ impl ChatGPT {
     }
 
     fn get_content(&self) -> Result<(String, String), Box<dyn Error>> {
-        let browser = Browser::default()?;
-        let tab = browser.new_tab()?;
+        let scraping = Scraping::new(&self.url);
 
-        tab.navigate_to(&self.url)?;
-        tab.wait_until_navigated()?;
-
-        let content = tab.get_content()?;
-
-        let title = Scraping.title(&content);
-        let html_content = Scraping.content(&content, Addons::CHATGPT_CONTENT_CLASS);
+        let content = scraping.get_html()?;
+        let title = scraping.title(&content);
+        let html_content = scraping.content(&content, Addons::CHATGPT_CONTENT_CLASS);
     
         Ok((title, html_content))
     }

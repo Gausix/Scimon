@@ -1,11 +1,33 @@
+use std::error::Error;
+use headless_chrome::Browser;
+
 use scraper::{
     Html, 
     Selector
 };
 
-pub struct Scraping;
+pub struct Scraping {
+    url: String,
+}
 
 impl Scraping {
+
+    pub fn new(url: &str) -> Self {
+        Self {
+            url: url.to_string(),
+        }
+    }
+
+    pub fn get_html(&self) -> Result<String, Box<dyn Error>> {
+        let browser = Browser::default()?;
+        let tab = browser.new_tab()?;
+
+        tab.navigate_to(&self.url)?;
+        tab.wait_until_navigated()?;
+
+        let content = tab.get_content()?;
+        Ok(content)
+    }
 
     pub fn title(&self, content: &str) -> String {
         let document = Html::parse_document(&content);
