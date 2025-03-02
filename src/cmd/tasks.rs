@@ -117,8 +117,7 @@ impl Tasks {
         }
 
         if line_url.contains(Uris::PROVIDERS_DOMAINS[7]) {
-            let chat_gpt = ChatGPT::new(&line_url, &path);
-            chat_gpt.convert().await?;
+            ChatGPT::new(&line_url, &path).convert().await?;
         }
 
         if !Providers::new(&line_url).check_provider() {
