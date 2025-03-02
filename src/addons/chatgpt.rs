@@ -35,7 +35,7 @@ impl ChatGPT {
 
     pub async fn convert(&self) -> Result<(), Box<dyn Error>> {
         let (file_name, html_content) = self.get_content()?;
-        let styled_html = Templates.chat_gpt(&html_content);
+        let styled_html = Templates.chatgpt(&html_content);
 
         let file = format!("{}.pdf", &file_name.replace(" ", "_"));
         let path = format!("{}{}", &self.path, &file);
