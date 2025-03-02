@@ -1,6 +1,5 @@
-use urlencoding::encode;
-
 use std::error::Error;
+use urlencoding::encode;
 
 use crate::{
     consts::addons::Addons,
