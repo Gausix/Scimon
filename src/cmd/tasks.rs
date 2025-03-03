@@ -44,7 +44,7 @@ pub struct Tasks;
 
 impl Tasks {
 
-    pub async fn prints<R>(&self, reader: R) -> Result<(), Box<dyn Error>> where R: BufRead, {
+    pub async fn prints<R>(&self, reader: R) -> Result<(), Box<dyn Error>> where R: BufRead {
         let contents = reader.lines().collect::<Result<Vec<_>, _>>()?.join("\n");
 
         for line in contents.lines() {
