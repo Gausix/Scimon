@@ -120,7 +120,7 @@ impl Tasks {
             ChatGPT::new(&line_url, &path).convert().await?;
         }
 
-        if !Providers::new(&line_url).check_provider() {
+        if !Providers::new(&line_url).check_provider_domain() {
             Pdf.download_line(&line_url, url, path).await?;
         }
 

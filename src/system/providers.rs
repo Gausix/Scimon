@@ -34,7 +34,7 @@ impl Providers {
         }
     }
 
-    pub fn check_provider_domain(&self) -> bool {
+    pub fn valid_provider_domain(&self) -> bool {
         let mut valid_domain = false;
         let domain = Domain::new(&self.url);
 
@@ -72,7 +72,7 @@ impl Providers {
         Ok((request_uri, filename))
     }
 
-    pub fn check_provider(&self) -> bool {
+    pub fn check_provider_domain(&self) -> bool {
         let domain = Domain::new(&self.url);
 
         for url_domain in &Uris::PROVIDERS_DOMAINS {

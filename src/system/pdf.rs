@@ -116,7 +116,7 @@ impl Pdf {
     }
 
     pub async fn download_line(&self, line_url: &str, url: &str, path: &str) -> Result<String, Box<dyn Error>> {
-        if self.is_pdf_file(&line_url).await? || Providers::new(url).check_provider_domain() && !line_url.contains(".md") {
+        if self.is_pdf_file(&line_url).await? || Providers::new(url).valid_provider_domain() && !line_url.contains(".md") {
             let result = self.download(&line_url, path).await;
             
             match result {
