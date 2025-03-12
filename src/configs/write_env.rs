@@ -1,5 +1,4 @@
 extern crate open;
-
 use rpassword::prompt_password;
 
 use std::{
@@ -25,15 +24,20 @@ pub struct WriteEnv {
 
 impl WriteEnv {
 
-    pub fn new() -> Self {
-        let mut key = String::new();
+    pub fn new(key: Option<String>, val: Option<String>) -> Self {
+        let key = key.unwrap_or_else(|| {
+            print!("Enter the variable name: ");
+            io::stdout().flush().expect("Failed to flush buffer");
 
-        print!("Enter the variable name: ");
-        io::stdout().flush().expect("Failed to flush buffer");
-        io::stdin().read_line(&mut key).expect("Failed to read variable name");
+            let mut key = String::new();
+            io::stdin().read_line(&mut key).expect("Failed to read variable name");
 
-        let key = key.trim().to_string().to_uppercase();
-        let value = prompt_password("Enter the variable value: ").unwrap();
+            key.trim().to_string().to_uppercase()
+        });
+
+        let value = val.unwrap_or_else(|| {
+            prompt_password("Enter the variable value: ").unwrap()
+        });
 
         Self { key, value }
     }
@@ -48,7 +52,7 @@ impl WriteEnv {
             .create(true)
             .open(env_path)?;
 
-        writeln!(file, "\n{}=\"{}\"", self.key, self.value)?;
+        writeln!(file, "{}=\"{}\"", self.key, self.value)?;
         SuccessAlerts::write_env(&self.key);
 
         Ok(())
