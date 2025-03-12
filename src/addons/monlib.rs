@@ -1,6 +1,5 @@
 extern crate reqwest;
 
-use regex::Regex;
 use serde_json::Value;
 use serde::Deserialize;
 
@@ -24,8 +23,8 @@ use crate::{
     configs::env::Env,
     cmd::monset::Monset,
     consts::addons::Addons,
-    regexp::regex_blocks::BlocksRegExp,
     syntax::blocks::readme_block::ReadMeBlock,
+    handlers::monlib_handlers::MonlibHandlers,
 
     ui::{
         panic_alerts::PanicAlerts,
@@ -59,19 +58,8 @@ pub struct Monlib;
 
 impl Monlib {
 
-    fn validator(&self, content: &str) -> bool {
-        if content.is_empty() {
-            return false;
-        }
-    
-        BlocksRegExp::GET_PATTERNS_MONLIB_VARS.iter().any(|pattern| {
-            let re = Regex::new(pattern).expect("Error compiling regex");
-            re.is_match(&content)
-        })
-    }
-
     pub async fn publish(&self, run: &str) -> Result<(), Box<dyn Error>> {
-        if !&self.validator(&run) {
+        if !&MonlibHandlers.validator_file(&run) {
             PanicAlerts::monlib_invalid_lib();
             return Ok(());
         }
@@ -117,7 +105,7 @@ impl Monlib {
                 let collected_lines: Result<String, _> = lines_iter.collect();
 
                 if let Ok(validated_content) = collected_lines {
-                    if !self.validator(&validated_content) {
+                    if !MonlibHandlers.validator_lib(&validated_content) {
                         PanicAlerts::monlib_invalid_lib();
                         return Ok(String::new());
                     }

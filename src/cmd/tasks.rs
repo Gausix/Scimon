@@ -61,10 +61,8 @@ impl Tasks {
             for line in contents.lines() {
                 let url = line.trim().split_whitespace().next().unwrap_or("");
 
-                if line.trim().starts_with("downloads {") {
+                if line.trim().starts_with("downloads {") || line.trim().starts_with("}") {
                     continue;
-                } else if line.trim().starts_with("}") {
-                    break;
                 }
 
                 if !MacroHandler::handle_check_macro_line(&line, "ignore") {

@@ -10,6 +10,7 @@ mod scimon;
 mod render;
 mod configs;
 mod args_cli;
+mod handlers;
 mod generator;
 
 use crate::scimon::Scimon;
