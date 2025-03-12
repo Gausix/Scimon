@@ -5,7 +5,6 @@ use serde_json::Value;
 use serde::Deserialize;
 
 use std::{
-    fs,
     fmt,
     error::Error,
     
@@ -22,10 +21,11 @@ use reqwest::{
 
 use crate::{
     args_cli::Flags,
-    cmd::tasks::Tasks,
     configs::env::Env,
+    cmd::monset::Monset,
     consts::addons::Addons,
     regexp::regex_blocks::BlocksRegExp,
+    syntax::blocks::readme_block::ReadMeBlock,
 
     ui::{
         panic_alerts::PanicAlerts,
@@ -59,14 +59,13 @@ pub struct Monlib;
 
 impl Monlib {
 
-    fn validator(&self, run: &str) -> bool {
-        let content = fs::read_to_string(run).unwrap_or_default();
+    fn validator(&self, content: &str) -> bool {
         if content.is_empty() {
             return false;
         }
     
         BlocksRegExp::GET_PATTERNS_MONLIB_VARS.iter().any(|pattern| {
-            let re = Regex::new(pattern).expect("Erro ao compilar a regex");
+            let re = Regex::new(pattern).expect("Error compiling regex");
             re.is_match(&content)
         })
     }
@@ -82,15 +81,9 @@ impl Monlib {
     }
 
     pub async fn get(&self, run: &str, flags: &Flags) -> Result<String, Box<dyn Error>> {
-        if !&self.validator(&run) {
-            PanicAlerts::monlib_invalid_lib();
-            return Ok(String::new());
-        }
-
         let mut url = Addons::MONLIB_API_REQUEST.to_owned();
     
-        url.push_str("lists");
-        url.push_str("/");
+        url.push_str("packages/");
         url.push_str(&run);
         url.push_str("/raw");
     
@@ -121,16 +114,23 @@ impl Monlib {
     
             if !is_json {
                 let lines_iter = Cursor::new(&data).lines();
-    
-                for line_result in lines_iter {
-                    let path = "packages/";
-                    let url = line_result?;
-                    let _ = fs::create_dir(&path);
+                let collected_lines: Result<String, _> = lines_iter.collect();
 
-                    Tasks.download(
-                        None, &url, &path, &flags,
-                    ).await?;
+                if let Ok(validated_content) = collected_lines {
+                    if !self.validator(&validated_content) {
+                        PanicAlerts::monlib_invalid_lib();
+                        return Ok(String::new());
+                    }
+                } else {
+                    PanicAlerts::monlib_invalid_lib();
+                    return Ok(String::new());
                 }
+
+                let monset = Monset::new(&url);
+
+                let _ = monset.downloads(&flags).await;
+                let _ = monset.run_code().await;
+                let _ = ReadMeBlock.render_block_and_save_file(&url, &flags);
             }
     
             Ok(result)
