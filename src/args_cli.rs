@@ -54,4 +54,10 @@ pub enum Commands {
         /// Options for the Scimon CLI
         options: String,
     },
+
+    /// Monlib Authentification
+    Auth {
+        /// Authentification for Monlib
+        option: String,
+    },
 }

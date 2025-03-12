@@ -84,6 +84,18 @@ impl Scimon {
                 Commands::Options { options } => {
                     let _ = self.options(&options).await;
                 },
+
+                Commands::Auth { option } => {
+                    match option.as_str() {
+                        "login" => println!("monlib login"),
+                        "logout" => {
+                            if let Err(err) = WriteEnv::new(Some("MONLIB_API_KEY".to_owned()), Some("".to_string())).edit_env_var() {
+                                ErrorsAlerts::generic(&err.to_string());
+                            }
+                        },
+                        _ => (),
+                    };
+                },
             }
         }
     }

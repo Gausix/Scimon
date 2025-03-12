@@ -3,7 +3,12 @@ use rpassword::prompt_password;
 
 use std::{
     path::PathBuf,
-    fs::OpenOptions,
+
+    fs::{
+        write,
+        OpenOptions,
+        read_to_string,
+    },
 
     io::{
         self,
@@ -42,7 +47,7 @@ impl WriteEnv {
         Self { key, value }
     }
 
-    pub fn add_env_var(&self) -> Result<(), IoError> {
+    pub fn write_env(&self) -> Result<(), IoError> {
         let app_folder = &*Folders::APP_FOLDER;
         let env_path: PathBuf = app_folder.join(".env");
 
@@ -53,8 +58,33 @@ impl WriteEnv {
             .open(env_path)?;
 
         writeln!(file, "{}=\"{}\"", self.key, self.value)?;
-        SuccessAlerts::write_env(&self.key);
+        Ok(())
+    }
 
+    pub fn add_env_var(&self) -> Result<(), IoError> {
+        let _ = &self.write_env()?;
+        SuccessAlerts::write_env(&self.key);
+        Ok(())
+    }
+
+    pub fn edit_env_var(&self) -> Result<(), IoError> {
+        let app_folder = &*Folders::APP_FOLDER;
+        let env_path: PathBuf = app_folder.join(".env");
+
+        let mut contents = read_to_string(&env_path)?;
+        let mut lines: Vec<String> = contents.lines().map(|line| line.to_string()).collect();
+
+        for line in &mut lines {
+            if line.starts_with(&self.key) {
+                *line = format!("{}=\"{}\"", self.key, self.value);
+                break;
+            }
+        }
+
+        contents = lines.join("\n");
+        write(env_path, contents)?;
+
+        SuccessAlerts::edit_env(&self.key);
         Ok(())
     }
   
