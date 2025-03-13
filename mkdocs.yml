@@ -35,11 +35,11 @@ nav:
     - Commands Block: monset/commands-block.md
     - Compress folder: monset/compress.md
     - Open links: monset/open-links.md
-    - Markdown render: monset/markdown-render.md
     - Style: monset/style.md
     - Print: monset/prints.md
     - Covers: monset/covers.md
     - QR Code: monset/qrcode.md
+  - Markdown: monset/markdown-render.md
   - Configs:
     - Scimon.yml file: configs/scimon.yml-file.md
     - .env file: configs/env-file.md
