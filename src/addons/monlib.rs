@@ -1,10 +1,8 @@
 extern crate reqwest;
 
 use serde_json::Value;
-use serde::Deserialize;
 
 use std::{
-    fmt,
     error::Error,
     
     io::{
@@ -24,35 +22,17 @@ use crate::{
     cmd::monset::Monset,
     consts::addons::Addons,
     syntax::blocks::readme_block::ReadMeBlock,
-    handlers::monlib_handlers::MonlibHandlers,
+
+    handlers::{
+        monlib_errors::*,
+        monlib_handlers::MonlibHandlers,
+    },
 
     ui::{
         panic_alerts::PanicAlerts,
         errors_alerts::ErrorsAlerts,
     },
 };
-
-#[derive(Debug, Deserialize)]
-struct ErrorResponse {
-    message: String,
-}
-
-#[derive(Debug)]
-enum ApiError {
-    Message(String)
-}
-
-impl fmt::Display for ApiError {
-
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            ApiError::Message(msg) => write!(f, "{}", msg),
-        }
-    }
-
-}
-
-impl Error for ApiError {}
 
 pub struct Monlib;
 
