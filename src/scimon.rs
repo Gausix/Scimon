@@ -15,6 +15,7 @@ use crate::{
     monlib::{
         pull::MonlibPull,
         push::MonlibPush,
+        logout::MonlibLogout,
     },
 
     configs::{
@@ -89,11 +90,7 @@ impl Scimon {
                 Commands::Auth { option } => {
                     match option.as_str() {
                         "login" => println!("monlib login"),
-                        "logout" => {
-                            if let Err(err) = WriteEnv::new(Some("MONLIB_API_KEY".to_owned()), Some("".to_string())).edit_env_var() {
-                                ErrorsAlerts::generic(&err.to_string());
-                            }
-                        },
+                        "logout" => MonlibLogout.logout(),
                         _ => (),
                     };
                 },
