@@ -63,3 +63,4 @@ credentials.json
 *.jpeg
 
 site/
+.vercel
