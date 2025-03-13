@@ -113,7 +113,7 @@ impl Monlib {
             } else {
                 Err(
                     ApiError::Message(
-                        format!("Error: internal server error")
+                        format!("Error: internal server error (Error 500)")
                     ).into()
                 )
             }
