@@ -4,16 +4,17 @@ use std::error::Error;
 use crate::{
     args_cli::*,
     cmd::monset::Monset,
+    addons::scrape::Scrape,
     syntax::blocks::readme_block::ReadMeBlock,
 
     ui::{
         ui_base::UI,
         errors_alerts::ErrorsAlerts,
     },
-
-    addons::{
-        scrape::Scrape,
-        monlib::Monlib,
+    
+    monlib::{
+        pull::MonlibPull,
+        push::MonlibPush,
     },
 
     configs::{
@@ -68,12 +69,12 @@ impl Scimon {
 
                 Commands::Pull { file } => {
                     UI::header();
-                    let _ = Monlib.get(&file, &flags_clone).await;
+                    let _ = MonlibPull.pull(&file, &flags_clone).await;
                 },
 
                 Commands::Push { file } => {
                     UI::header();
-                    let _ = Monlib.publish(&file).await;
+                    let _ = MonlibPush.push(&file).await;
                 },
 
                 Commands::Scrape { url } => {

@@ -8,6 +8,7 @@ mod system;
 mod syntax;
 mod scimon;
 mod render;
+mod monlib;
 mod configs;
 mod args_cli;
 mod handlers;

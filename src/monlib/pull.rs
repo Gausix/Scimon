@@ -34,21 +34,11 @@ use crate::{
     },
 };
 
-pub struct Monlib;
+pub struct MonlibPull;
 
-impl Monlib {
+impl MonlibPull {
 
-    pub async fn publish(&self, run: &str) -> Result<(), Box<dyn Error>> {
-        if !&MonlibHandlers.validator_file(&run) {
-            PanicAlerts::monlib_invalid_lib();
-            return Ok(());
-        }
-
-        println!("Monlib publish");
-        Ok(())
-    }
-
-    pub async fn get(&self, run: &str, flags: &Flags) -> Result<String, Box<dyn Error>> {
+    pub async fn pull(&self, run: &str, flags: &Flags) -> Result<String, Box<dyn Error>> {
         let mut url = Addons::MONLIB_API_REQUEST.to_owned();
     
         url.push_str("packages/");
