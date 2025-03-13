@@ -6,6 +6,8 @@ use std::{
     error::Error,
 };
 
+use image::ImageFormat;
+
 use crate::{
     args_cli::Flags,
     consts::uris::Uris,
@@ -82,7 +84,7 @@ impl Tasks {
                         let name_pdf = FileUtils.replace_extension(&qr_code_name, "png");
                         let file_path = format!("{}{}", qrcode_path, name_pdf);
                         
-                        GenQrCode::new(&url, qrcode_size).png(&file_path).unwrap();
+                        GenQrCode::new(&url, qrcode_size, ImageFormat::Png).png(&file_path).unwrap();
                         SuccessAlerts::qrcode(file_path.as_str());
                     }
                 }

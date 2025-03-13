@@ -15,14 +15,16 @@ use image::{
 pub struct GenQrCode {
     link: String,
     size: u32,
+    format: ImageFormat,
 }
 
 impl GenQrCode {
 
-    pub fn new(link: &str, size: usize) -> Self {
+    pub fn new(link: &str, size: usize, format: ImageFormat) -> Self {
         Self {
             link: link.to_string(),
             size: size as u32,
+            format: format,
         }
     }
 
@@ -34,9 +36,9 @@ impl GenQrCode {
         
         let file_path = Path::new(file_path);
         let mut cursor = Cursor::new(Vec::new());
-        image.write_to(&mut cursor, ImageFormat::Png)?;
+        image.write_to(&mut cursor, self.format)?;
         
-        write(file_path, cursor.into_inner())?;        
+        write(file_path, cursor.into_inner())?;
         Ok(())
     }
 
