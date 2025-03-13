@@ -23,14 +23,14 @@ use crate::{
     consts::addons::Addons,
     syntax::blocks::readme_block::ReadMeBlock,
 
-    handlers::{
-        monlib_errors::*,
-        monlib_handlers::MonlibHandlers,
-    },
-
     ui::{
         panic_alerts::PanicAlerts,
         errors_alerts::ErrorsAlerts,
+    },
+
+    handlers::{
+        monlib_errors::*,
+        monlib_handlers::MonlibHandlers,
     },
 };
 
