@@ -53,7 +53,7 @@ impl MonlibPull {
             .get(&url)
             .header(
                 header::AUTHORIZATION, format!(
-                    "Bearer {}", Env.env_var("MONLIB_API_KEY")
+                    "Bearer {}", Env.env_var(Addons::MONLIB_API_ENV)
                 )
             )
             .send().await?;

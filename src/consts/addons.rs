@@ -6,9 +6,12 @@ impl Addons {
     pub const DEFAULT_CSS_STYLE: &'static str = "https://addons.scimon.dev/static/md-default.css";
 
     // Scimon
-    pub const MONLIB_API_REQUEST: &'static str = "https://api.monlib.net/";
     pub const SCIMON_SCRAPE_API_ENDPOINT: &'static str = "https://addons.scimon.dev/pdfscrape?url=";
     pub const SCIMON_URLFILTER_API_ENDPOINT: &'static str = "https://addons.scimon.dev/urlfilter?url=";
+
+    // Monlib Package Manager
+    pub const MONLIB_API_ENV: &'static str = "MONLIB_API_KEY";
+    pub const MONLIB_API_REQUEST: &'static str = "https://api.monlib.net/";
 
     pub const README_TEMPLATE_LINK: &'static str = "https://readme.scimon.dev/";
 
