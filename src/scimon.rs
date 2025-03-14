@@ -20,6 +20,7 @@ use crate::{
 
     configs::{
         env::Env,
+        view_env::ViewEnv,
         settings::Settings,
         write_env::WriteEnv,
         configs_files::DownloadConfigsFiles,
@@ -32,6 +33,7 @@ impl Scimon {
 
     async fn options(&self, options: &str) -> Result<(), Box<dyn Error>> {
         match options {
+            "view-env" => ViewEnv.table(),
             "open-env" => Env.open_env_file()?,
             "open-settings" => Settings.open_settings_file()?,
             "write-env" => WriteEnv::new(None, None).add_env_var()?,
