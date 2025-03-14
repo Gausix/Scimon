@@ -8,14 +8,23 @@ use crate::consts::folders::Folders;
 pub struct ViewEnv;
 
 impl ViewEnv {
+
+    fn header_text(&self) -> (String, String) {
+        ("Name".to_string(), "Value".to_string())
+    }
+
+    fn header_size(&self) -> (usize, usize) {
+        let (name, value) = self.header_text();
+        (name.len(), value.len())
+    }
     
     pub fn table(&self) {
         let app_folder = &*Folders::APP_FOLDER;
         let env_path: PathBuf = app_folder.join(".env");
         let content = read_to_string(env_path).unwrap_or_else(|_| "".to_string());
 
-        let mut max_name_len = "Name".len();
-        let mut max_value_len = "Value".len();
+        let (lbl_name, lbl_value) = self.header_text();
+        let (mut max_name_len, mut max_value_len) = self.header_size();
 
         let pairs: Vec<(String, String)> = content
             .lines()
@@ -43,7 +52,7 @@ impl ViewEnv {
         let table_width = max_name_len + max_value_len + 7;
 
         println!("{:─<1$}", "", table_width);
-        println!("| {:<width_name$} | {:<width_value$} |", "Name", "Value", width_name=max_name_len, width_value=max_value_len);
+        println!("| {:<width_name$} | {:<width_value$} |", lbl_name, lbl_value, width_name=max_name_len, width_value=max_value_len);
         println!("{:─<1$}", "", table_width);
 
         for (name, value) in pairs {
