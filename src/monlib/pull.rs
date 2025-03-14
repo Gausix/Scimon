@@ -1,6 +1,9 @@
 extern crate reqwest;
 
-use serde_json::Value;
+use serde_json::{
+    Value,
+    from_str,
+};
 
 use std::{
     error::Error,
@@ -95,7 +98,7 @@ impl MonlibPull {
         } else {
             let response_text = response.text().await?;
     
-            if let Ok(error_response) = serde_json::from_str::<ErrorResponse>(&response_text) {
+            if let Ok(error_response) = from_str::<ErrorResponse>(&response_text) {
                 let message = ApiError::Message(error_response.message);
                 ErrorsAlerts::generic(&message.to_string());
     
