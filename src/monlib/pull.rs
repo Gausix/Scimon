@@ -99,14 +99,14 @@ impl MonlibPull {
             let response_text = response.text().await?;
     
             if let Ok(error_response) = from_str::<ErrorResponse>(&response_text) {
-                let message = ApiError::Message(error_response.message);
+                let message = ApiError::Message(error_response.error);
                 ErrorsAlerts::generic(&message.to_string());
     
                 Ok(message.to_string())
             } else {
                 Err(
                     ApiError::Message(
-                        format!("Error: internal server error (Error 500)")
+                        format!("Error: internal server error")
                     ).into()
                 )
             }
