@@ -43,7 +43,7 @@ impl MonlibPull {
         url.push_str(&run);
         url.push_str("/raw");
 
-        let response = MonlibRequest.request(url.as_str()).await?;
+        let response = MonlibRequest::new().pull(url.as_str()).await?;
         if response.status().is_success() {
             let result = String::new();
             let mut is_json = true;

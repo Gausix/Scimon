@@ -2,8 +2,8 @@ extern crate reqwest;
 
 use reqwest::{
     Error,
-    Client, 
-    Response
+    Client,
+    Response,
 };
 
 use crate::{
@@ -11,17 +11,23 @@ use crate::{
     consts::addons::Addons,
 };
 
-pub struct MonlibRequest;
+pub struct MonlibRequest {
+    api_key: String
+}
 
 impl MonlibRequest {
 
-    pub async fn request(&self, url: &str) -> Result<Response, Error> {
-        let api_key = Env.env_var(Addons::MONLIB_API_ENV); 
+    pub fn new() -> Self {
+        let api_key = Env.env_var(Addons::MONLIB_API_ENV);
+        Self { api_key }
+    }
+
+    pub async fn pull(&self, url: &str) -> Result<Response, Error> {
         let client = Client::builder().danger_accept_invalid_certs(true).build().unwrap();
 
         let response = client
             .get(url)
-            .header("API-Key", api_key)
+            .header("API-Key", &self.api_key)
         .send()
         .await?;
 
