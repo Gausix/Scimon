@@ -13,9 +13,13 @@ use std::{
 
 use crate::{
     args_cli::Flags,
-    cmd::tasks::Tasks,
     utils::validation::Validate,
     ui::errors_alerts::ErrorsAlerts,
+
+    cmd::{
+        tasks::Tasks,
+        tasks_raw::TasksRaw,
+    },
 
     syntax::blocks::{
         runner_block::RunnerBlock, 
@@ -24,7 +28,7 @@ use crate::{
 };
 
 pub struct Monset{
-    run: String,
+    pub run: String,
 }
 
 impl Monset {
@@ -71,9 +75,25 @@ impl Monset {
         Ok(())
     }
 
+    pub async fn downloads_raw(&self, flags: &Flags) -> Result<(), Box<dyn Error>> {
+        let content = self.run.clone();
+
+        let _ = TasksRaw.prints(&content).await?;
+        let _ = DownloadsBlock.read_lines_raw(&content, &flags).await?;
+
+        Ok(())
+    }
+
     pub async fn run_code(&self) -> Result<(), Box<dyn Error>> {
         let mut reader = self.read_file().await?;
         RunnerBlock.read_lines(&mut reader).await?;
+
+        Ok(())
+    }
+
+    pub async fn run_code_raw(&self) -> Result<(), Box<dyn Error>> {
+        let content = self.run.clone();
+        RunnerBlock.read_lines_raw(&content).await?;
 
         Ok(())
     }

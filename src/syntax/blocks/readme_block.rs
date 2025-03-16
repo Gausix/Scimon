@@ -26,7 +26,7 @@ impl ReadMeBlock {
 
     fn render(&self, input: &str) -> Option<String> {
         let contents = fs::read_to_string(input).expect("Failed to read file");
-    
+
         let start_pattern = Regex::new(BlocksRegExp::GET_README_BLOCK[0]).unwrap();
     
         if let Some(start_match) = start_pattern.find(&contents) {

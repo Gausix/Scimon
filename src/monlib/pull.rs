@@ -14,10 +14,7 @@ use std::{
     }
 };
 
-use reqwest::{
-    header,
-    Client,
-};
+use reqwest::Client;
 
 use crate::{
     args_cli::Flags,
@@ -43,6 +40,7 @@ impl MonlibPull {
 
     pub async fn pull(&self, run: &str, flags: &Flags) -> Result<String, Box<dyn Error>> {
         let mut url = Addons::MONLIB_API_REQUEST.to_owned();
+        let api_key = Env.env_var(Addons::MONLIB_API_ENV);
     
         url.push_str("packages/");
         url.push_str(&run);
@@ -51,12 +49,9 @@ impl MonlibPull {
         let client = Client::builder().danger_accept_invalid_certs(true).build()?;
         let response = client
             .get(&url)
-            .header(
-                header::AUTHORIZATION, format!(
-                    "Bearer {}", Env.env_var(Addons::MONLIB_API_ENV)
-                )
-            )
-            .send().await?;
+            .header("API-Key", api_key) // <--- Aqui está a correção
+            .send()
+            .await?;
     
         if response.status().is_success() {
             let result = String::new();
@@ -87,10 +82,10 @@ impl MonlibPull {
                     return Ok(String::new());
                 }
 
-                let monset = Monset::new(&url);
+                let monset = Monset::new(&data);
 
-                let _ = monset.downloads(&flags).await;
-                let _ = monset.run_code().await;
+                let _ = monset.downloads_raw(&flags).await?;
+                let _ = monset.run_code_raw().await;
                 let _ = ReadMeBlock.render_block_and_save_file(&url, &flags);
             }
     

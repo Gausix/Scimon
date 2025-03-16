@@ -20,6 +20,7 @@ use crate::{
     cmd::{
         tasks::Tasks,
         compress::Compress, 
+        tasks_raw::TasksRaw,
     },
 
     syntax::{
@@ -111,6 +112,72 @@ impl DownloadsBlock {
         }
 
         Ok(())
+    }
+
+    pub async fn read_lines_raw(&self, contents: &str, flags: &Flags) -> Result<(), Box<dyn Error>> {
+        let contents = contents.lines().collect::<Vec<_>>().join("\n");
+        let path = Vars.get_path(&contents);
+
+        let start_index = match (contents.find("downloads {"), contents.find("downloads{")) {
+            (Some(idx1), Some(idx2)) => Some(idx1.min(idx2)),
+            (Some(idx), None) | (None, Some(idx)) => Some(idx),
+            (None, None) => None,
+        };
+
+        let end_index = contents.rfind("}");
+
+        if let (Some(start_index), Some(end_index)) = (start_index, end_index) {
+            FileUtils.create_path(&path);
+            let downloads_content = &contents[start_index + "downloads ".len()..end_index];
+
+            if downloads_content.trim().starts_with("commands {") {
+                return Ok(());
+            }
+
+            UI::section_header("downloads", "normal");
+            self.block(&contents, downloads_content, &path, flags).await?;
+
+            Compress::new(&contents).get()?;
+            Covers::new(&contents).get().await?;
+            TasksRaw.qr_codes(&contents).await?;
+            Math::new(&contents).render()?;
+            
+            Vars.get_open(&contents, flags.no_open_link).await;
+            ReadMeBlock.render_var_and_save_file(&contents, flags).await?;
+
+            Checksum::new(Some(contents)).files()?;
+        } else {
+            PanicAlerts::downloads_block();
+        }
+
+        Ok(())
+        // let path = Vars.get_path(&contents);
+        // let lines = contents.lines();
+        // let downloads_content = lines.collect::<Vec<&str>>().join("\n");
+
+        // if downloads_content.trim().contains("downloads {") {
+        //     FileUtils.create_path(&path);
+
+        //     let downloads_content = &downloads_content["downloads ".len()..];
+        //     // println!("downloads_content: {}", downloads_content);
+
+        //     UI::section_header("downloads", "normal");
+        //     self.block(&contents, downloads_content, &path, flags).await?;
+
+        //     Compress::new(&contents).get()?;
+        //     Covers::new(&contents).get().await?;
+        //     TasksRaw.qr_codes(&contents).await?;
+        //     Math::new(&contents).render()?;
+            
+        //     Vars.get_open(&contents, flags.no_open_link).await;
+        //     ReadMeBlock.render_var_and_save_file(&contents, flags).await?;
+
+        //     Checksum::new(Some(contents.to_string())).files()?;
+        // } else {
+        //     PanicAlerts::downloads_block();
+        // }
+
+        // Ok(())
     }
 
 }
