@@ -14,13 +14,11 @@ use std::{
     }
 };
 
-use reqwest::Client;
-
 use crate::{
     args_cli::Flags,
-    configs::env::Env,
     cmd::monset::Monset,
     consts::addons::Addons,
+    monlib::request::MonlibRequest,
     syntax::blocks::readme_block::ReadMeBlock,
 
     ui::{
@@ -40,19 +38,12 @@ impl MonlibPull {
 
     pub async fn pull(&self, run: &str, flags: &Flags) -> Result<String, Box<dyn Error>> {
         let mut url = Addons::MONLIB_API_REQUEST.to_owned();
-        let api_key = Env.env_var(Addons::MONLIB_API_ENV);
     
         url.push_str("packages/");
         url.push_str(&run);
         url.push_str("/raw");
-    
-        let client = Client::builder().danger_accept_invalid_certs(true).build()?;
-        let response = client
-            .get(&url)
-            .header("API-Key", api_key) // <--- Aqui está a correção
-            .send()
-            .await?;
-    
+
+        let response = MonlibRequest.request(url.as_str()).await?;
         if response.status().is_success() {
             let result = String::new();
             let mut is_json = true;
