@@ -45,6 +45,16 @@ impl Scimon {
         Ok(())
     }
 
+    fn monlib(&self, options: &str) -> Result<(), Box<dyn Error>> {
+        match options {
+            "login" => println!("monlib login"),
+            "logout" => MonlibLogout.logout(),
+            _ => (),
+        };
+
+        Ok(())
+    }
+
     pub async fn init(&self) {
         let (print, force_mode) = (false, false);
 
@@ -90,11 +100,7 @@ impl Scimon {
                 },
 
                 Commands::Auth { option } => {
-                    match option.as_str() {
-                        "login" => println!("monlib login"),
-                        "logout" => MonlibLogout.logout(),
-                        _ => (),
-                    };
+                    let _ = self.monlib(&option);
                 },
             }
         }
