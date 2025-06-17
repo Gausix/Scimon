@@ -51,7 +51,7 @@ impl Pdf {
 
         if let Some(content_type) = response.headers().get(MimeType) {
             if let Ok(content_type_str) = content_type.to_str() {
-                if content_type_str == "application/pdf" {
+                if content_type_str == "application/pdf" || content_type_str == "application/octet-stream" {
                     return Ok(true);
                 }
             }
@@ -81,7 +81,7 @@ impl Pdf {
         let (request_uri, filename) = Providers::new(url).get_from_provider().await?;
         let response = reqwest::get(&request_uri).await?;
         let total_size = Remote.get_file_size(&request_uri).await?;
-    
+
         let pb = ProgressBar::new(total_size);
         pb.set_style(UI::pb_template());
     
@@ -130,6 +130,22 @@ impl Pdf {
 
                 Err(e) => ErrorsAlerts::download(e, url),
             }
+        }
+
+        Ok("".to_string())
+    }
+
+    pub async fn download_doi(&self, line_url: &str, url: &str, path: &str) -> Result<String, Box<dyn Error>> {
+        let result = self.download(&line_url, path).await;
+            
+        match result {
+            Ok(file) => {
+                let file_path = &format!("{}{}", &path, &file);
+                SuccessAlerts::download(&file, url, false);
+                return Ok(file_path.to_string())
+            },
+
+            Err(e) => ErrorsAlerts::download(e, url),
         }
 
         Ok("".to_string())

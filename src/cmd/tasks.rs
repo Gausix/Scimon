@@ -113,7 +113,7 @@ impl Tasks {
 
         if line_url.contains(Uris::PROVIDERS_DOMAINS[6]) {
             let scihub_url = SciHub::new(&line_url).get_pdf().await?;
-            Pdf.download_line(&scihub_url, &scihub_url, path).await?;
+            Pdf.download_doi(&scihub_url, &scihub_url, path).await?;
         }
 
         if line_url.contains(Uris::PROVIDERS_DOMAINS[7]) {
