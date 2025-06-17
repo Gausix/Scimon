@@ -40,7 +40,7 @@ impl SciHub {
             .filter(|s| !s.is_empty())
             .collect::<Vec<&str>>();
 
-        (self.url.clone(), last_slices[1].to_string())
+        (self.url.clone(), last_slices[1].to_string() + ".pdf")
     } 
 
     pub async fn get_pdf(&self) -> Result<String, Box<dyn Error>> {

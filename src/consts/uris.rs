@@ -11,7 +11,7 @@ impl Uris {
         "codeberg.org",
         "sci-hub.se",
         "chatgpt.com",
-        "annas-archive.org"
+        "wbsg8v.xyz"
     ];
 
     pub const WIKIPEDIA_API_REQUEST_PDF: &'static str = "https://en.wikipedia.org/api/rest_v1/page/pdf/";
