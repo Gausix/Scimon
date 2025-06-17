@@ -1,4 +1,5 @@
 pub mod pdf;
+pub mod doi;
 pub mod general;
 pub mod scripts;
 pub mod markdown;

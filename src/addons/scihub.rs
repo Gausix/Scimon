@@ -6,9 +6,9 @@ use scraper::{
     Selector
 };
 
-use crate::consts::{
-    uris::Uris,
-    addons::Addons,
+use crate::{
+    system::doi::DOI,
+    consts::addons::Addons,
 };
 
 pub struct SciHub {
@@ -23,28 +23,9 @@ impl SciHub {
         }
     }
 
-    pub fn get_doi(&self) -> String {
-        let url_str = self.url.replace("https://", "").replace("http://", "").replace(Uris::PROVIDERS_DOMAINS[6], "");
-        let last_slices = url_str
-            .split('/')
-            .filter(|s| !s.is_empty())
-            .collect::<Vec<&str>>();
-
-        last_slices[0].to_string() + "/" + last_slices[1]
-    } 
-
-    pub fn get_doi_name(&self) -> (String, String) {
-        let url_str = self.url.replace("https://", "").replace("http://", "").replace(Uris::PROVIDERS_DOMAINS[6], "");
-        let last_slices = url_str
-            .split('/')
-            .filter(|s| !s.is_empty())
-            .collect::<Vec<&str>>();
-
-        (self.url.clone(), last_slices[1].to_string() + ".pdf")
-    } 
-
     pub async fn get_pdf(&self) -> Result<String, Box<dyn Error>> {
-        let url = format!("{}{}", Addons::ANNAS_ARCHIVE_ENDPOINT, self.get_doi());
+        let doi = DOI::new(&self.url);
+        let url = format!("{}{}", Addons::ANNAS_ARCHIVE_ENDPOINT, doi.scihub());
         let response = reqwest::get(&url).await?.text().await?;
 
         let document = Html::parse_document(&response);
@@ -60,8 +41,7 @@ impl SciHub {
             }
         }
 
-        // Err("PDF not found".into())
-        Ok("".to_string())
-    } 
+       Err("PDF not found".into())
+    }
 
 }
