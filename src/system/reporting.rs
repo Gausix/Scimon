@@ -6,9 +6,9 @@ use std::error::Error;
 
 use crate::{
     utils::remote::Remote,
-    syntax::macro_handler::MacroHandler,
     regexp::regex_core::CoreRegExp,
     ui::errors_alerts::ErrorsAlerts,
+    syntax::macro_handler::MacroHandler,
 };
 
 pub struct Reporting;
