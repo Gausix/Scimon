@@ -14,15 +14,15 @@ use crate::{
     configs::settings::Settings,
     system::providers::Providers,
     generator::qr_code::GenQrCode,
-
-    addons::{
-        scihub::SciHub,
-        chatgpt::ChatGPT,
-    },
     
     ui::{
         ui_base::UI,
         success_alerts::SuccessAlerts,
+    },
+
+    addons::{
+        scihub::SciHub,
+        chatgpt::ChatGPT,
     },
 
     utils::{
