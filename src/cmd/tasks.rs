@@ -36,8 +36,8 @@ use crate::{
     },
 
     system::{
-        download::Download,
         markdown::Markdown,
+        download::Download,
         reporting::Reporting,
     },
 };

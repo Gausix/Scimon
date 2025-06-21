@@ -35,7 +35,7 @@ pub struct Download;
 
 impl Download {
 
-    async fn download(&self, url: &str, path: &str) -> Result<String, Box<dyn Error>> {
+    async fn make(&self, url: &str, path: &str) -> Result<String, Box<dyn Error>> {
         UrlMisc::check_url_status(url).await?;
 
         let (request_uri, filename) = Providers::new(url).get_from_provider().await?;
@@ -65,7 +65,7 @@ impl Download {
 
     pub async fn download_line(&self, line_url: &str, url: &str, path: &str) -> Result<String, Box<dyn Error>> {
         if Pdf.is_pdf_file(&line_url).await? || Providers::new(url).valid_provider_domain() && !line_url.contains(".md") {
-            let result = self.download(&line_url, path).await;
+            let result = self.make(&line_url, path).await;
             
             match result {
                 Ok(file) => {
@@ -84,7 +84,7 @@ impl Download {
     }
 
     pub async fn download_doi(&self, line_url: &str, url: &str, path: &str) -> Result<String, Box<dyn Error>> {
-        let result = self.download(&line_url, path).await;
+        let result = self.make(&line_url, path).await;
             
         match result {
             Ok(file) => {
