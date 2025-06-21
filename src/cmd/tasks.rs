@@ -37,8 +37,8 @@ use crate::{
 
     system::{
         markdown::Markdown,
-        download::Download,
         reporting::Reporting,
+        make_download::MakeDownload,
     },
 };
 
@@ -113,7 +113,7 @@ impl Tasks {
 
         if line_url.contains(Uris::PROVIDERS_DOMAINS[6]) {
             let scihub_url = SciHub::new(&line_url).get_pdf().await?;
-            Download.download_doi(&scihub_url, &scihub_url, path).await?;
+            MakeDownload.download_doi(&scihub_url, &scihub_url, path).await?;
         }
 
         if line_url.contains(Uris::PROVIDERS_DOMAINS[7]) {
@@ -121,7 +121,7 @@ impl Tasks {
         }
 
         if !Providers::new(&line_url).check_provider_domain() {
-            Download.download_line(&line_url, url, path).await?;
+            MakeDownload.download_line(&line_url, url, path).await?;
         }
 
         Ok(())

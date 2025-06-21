@@ -31,9 +31,9 @@ use crate::{
     },
 };
 
-pub struct Download;
+pub struct MakeDownload;
 
-impl Download {
+impl MakeDownload {
 
     async fn make(&self, url: &str, path: &str) -> Result<String, Box<dyn Error>> {
         UrlMisc::check_url_status(url).await?;
