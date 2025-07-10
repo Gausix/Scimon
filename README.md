@@ -1,5 +1,5 @@
 <div align='center'>
-    <img src="https://i.imgur.com/ZZ9a1DU.png"/>
+    <img src="https://i.imgur.com/jAE5DWn.png"/>
 </div>
 
 <p align='center'><b>Unleash your knowledge.</b></p>
