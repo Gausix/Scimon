@@ -1,4 +1,6 @@
+use tokio::task;
 use is_url::is_url;
+use futures::future::join_all;
 
 use std::{
     io::BufRead,
@@ -41,6 +43,7 @@ impl DownloadsBlock {
     
     async fn block(&self, contents: &str, downloads_content: &str, path: &str, flags: &Flags) -> Result<(), Box<dyn Error>> {
         let mut seen_urls = HashSet::new();
+        let mut tasks = Vec::new();
 
         for line in downloads_content.lines() {
             let url = line.trim().split_whitespace().next().unwrap_or("");
@@ -55,23 +58,28 @@ impl DownloadsBlock {
             if seen_urls.contains(&final_url) {
                 continue;
             }
-        
+
             seen_urls.insert(final_url.to_string());
 
             if !MacroHandler::handle_check_macro_line(&line, "ignore") {
                 if !final_url.is_empty() && is_url(&final_url) && final_url.starts_with("http") {
-                    Tasks.download(
-                        Some(contents),
-                        &final_url,
-                        &path,
-                        flags,
-                    ).await?;
+                    let contents = contents.to_string();
+                    let url = final_url.clone();
+                    let path = path.to_string();
+                    let flags = flags.clone();
+                    
+                    let task = task::spawn(async move {
+                        let _ = Tasks.download(Some(&contents), &url, &path, &flags).await;
+                    });
+
+                    tasks.push(task);
                 }
             } else {
                 MacrosAlerts::ignore(&final_url);
             }
         }
 
+        join_all(tasks).await;
         Ok(())
     }
 
