@@ -13,6 +13,18 @@ use crate::{
     utils::file::FileUtils,
     system::providers::Providers,
 
+    ui::{
+        ui_base::UI,
+        panic_alerts::PanicAlerts, 
+        macros_alerts::MacrosAlerts, 
+    }, 
+
+    cmd::{
+        tasks::Tasks,
+        compress::Compress, 
+        tasks_raw::TasksRaw,
+    },
+
     syntax::{
         macro_handler::MacroHandler, vars::Vars,
         blocks::readme_block::ReadMeBlock, 
@@ -23,18 +35,6 @@ use crate::{
         covers::Covers,
         checksum::Checksum,
     },
-
-    cmd::{
-        tasks::Tasks,
-        compress::Compress, 
-        tasks_raw::TasksRaw,
-    },
-
-    ui::{
-        ui_base::UI,
-        panic_alerts::PanicAlerts, 
-        macros_alerts::MacrosAlerts, 
-    }, 
 };
 
 pub struct DownloadsBlock;
