@@ -26,7 +26,8 @@ use crate::{
     },
 
     syntax::{
-        macro_handler::MacroHandler, vars::Vars,
+        vars::Vars,
+        macro_handler::MacroHandler, 
         blocks::readme_block::ReadMeBlock, 
     },
     
