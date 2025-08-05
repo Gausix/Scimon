@@ -151,33 +151,6 @@ impl DownloadsBlock {
         }
 
         Ok(())
-        // let path = Vars.get_path(&contents);
-        // let lines = contents.lines();
-        // let downloads_content = lines.collect::<Vec<&str>>().join("\n");
-
-        // if downloads_content.trim().contains("downloads {") {
-        //     FileUtils.create_path(&path);
-
-        //     let downloads_content = &downloads_content["downloads ".len()..];
-        //     // println!("downloads_content: {}", downloads_content);
-
-        //     UI::section_header("downloads", "normal");
-        //     self.block(&contents, downloads_content, &path, flags).await?;
-
-        //     Compress::new(&contents).get()?;
-        //     Covers::new(&contents).get().await?;
-        //     TasksRaw.qr_codes(&contents).await?;
-        //     Math::new(&contents).render()?;
-            
-        //     Vars.get_open(&contents, flags.no_open_link).await;
-        //     ReadMeBlock.render_var_and_save_file(&contents, flags).await?;
-
-        //     Checksum::new(Some(contents.to_string())).files()?;
-        // } else {
-        //     PanicAlerts::downloads_block();
-        // }
-
-        // Ok(())
     }
 
 }
