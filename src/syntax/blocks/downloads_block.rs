@@ -12,6 +12,11 @@ use crate::{
     args_cli::Flags, 
     utils::file::FileUtils,
     system::providers::Providers,
+
+    syntax::{
+        macro_handler::MacroHandler, vars::Vars,
+        blocks::readme_block::ReadMeBlock, 
+    },
     
     generator::{
         math::Math,
@@ -24,11 +29,6 @@ use crate::{
         compress::Compress, 
         tasks_raw::TasksRaw,
     },
-
-    syntax::{
-        macro_handler::MacroHandler, vars::Vars,
-        blocks::readme_block::ReadMeBlock, 
-    }, 
 
     ui::{
         ui_base::UI,
